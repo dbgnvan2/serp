@@ -10,6 +10,8 @@ from datetime import datetime
 from collections import Counter
 from openpyxl import Workbook
 import hashlib
+import generate_insight_report
+import generate_content_brief
 
 try:
     from textblob import TextBlob
@@ -28,10 +30,15 @@ load_dotenv()
 API_KEY = os.getenv("SERPAPI_KEY")
 INPUT_FILE = "keywords.csv"
 OUTPUT_FILE = "market_analysis_v2.xlsx"
+OUTPUT_JSON = "market_analysis_v2.json"
+OUTPUT_MD = "market_analysis_v2.md"
 LOCATION = "Vancouver, British Columbia, Canada"
 FORCE_LOCAL_INTENT = True
 STOP_WORDS = {"the", "and", "to", "of", "a", "in", "is", "for", "on", "with", "as", "at", "by", "an", "be", "or", "are", "from", "that",
-              "this", "it", "we", "our", "us", "can", "will", "your", "you", "my", "me", "not", "have", "has", "but", "so", "if", "their", "they"}
+              "this", "it", "we", "our", "us", "can", "will", "your", "you", "my", "me", "not", "have", "has", "but", "so", "if", "their", "they",
+              "vancouver", "bc", "british", "columbia", "canada", "north", "west", "counselling", "counseling", "therapy", "therapist",
+              "counsellor", "counselor", "service", "services", "clinic", "centre", "center", "help", "support",
+              "highlytrained"}
 
 
 def setup_logging(run_id):
@@ -539,8 +546,8 @@ def parse_data(keyword, results, query_metadata):
 def get_ngrams(text, n):
     if not isinstance(text, str):
         return []
-    # Clean: lowercase, remove non-alphanumeric (keep spaces)
-    text = re.sub(r'[^\w\s]', '', text.lower())
+    # Clean: lowercase, replace non-alphanumeric with space (prevents "highly-trained" -> "highlytrained")
+    text = re.sub(r'[^\w\s]', ' ', text.lower())
     words = [w for w in text.split() if w not in STOP_WORDS and len(w) > 2]
     return [" ".join(words[i:i+n]) for i in range(len(words)-n+1)]
 
@@ -597,6 +604,70 @@ def calculate_subjectivity(text):
         return round(TextBlob(text).sentiment.subjectivity, 2)
     except Exception:
         return "N/A"
+
+
+def analyze_strategic_opportunities(ngram_results):
+    """
+    Maps detected N-Gram patterns to Bowen Theory strategic recommendations.
+    Returns a list of dictionaries for the 'Strategic_Recommendations' sheet.
+    """
+    recommendations = []
+
+    # Define the Knowledge Base (The "Bridge")
+    strategies = [
+        {
+            "Pattern_Name": "The Medical Model Trap",
+            "Triggers": ["clinical", "registered", "diagnosis", "disorder", "mental health", "patient", "treatment"],
+            "Status_Quo_Message": "You are sick/broken and need an expert to fix you (External Locus of Control).",
+            "Bowen_Bridge_Reframe": "Shift from pathology to functioning. You don't need a diagnosis; you need a map of your emotional system.",
+            "Content_Angle": "Why treating your marriage like a medical condition keeps you stuck."
+        },
+        {
+            "Pattern_Name": "The Fusion Trap",
+            "Triggers": ["connection", "bond", "close", "intimacy", "communication", "save marriage", "stop fighting"],
+            "Status_Quo_Message": "The goal is to merge, agree, and be 'close' at all costs.",
+            "Bowen_Bridge_Reframe": "Real intimacy requires differentiation. Seeking closeness to reduce anxiety often increases reactivity.",
+            "Content_Angle": "Why trying to get 'closer' might be pushing your partner away."
+        },
+        {
+            "Pattern_Name": "The Resource Trap",
+            "Triggers": ["free", "low cost", "sliding scale", "cheap", "affordable", "covered", "insurance"],
+            "Status_Quo_Message": "High anxiety about resources/access. Seeking immediate symptom relief (venting).",
+            "Bowen_Bridge_Reframe": "Address the anxiety driving the search. Cheap relief often delays real structural change.",
+            "Content_Angle": "When 'free venting' costs you more than you think."
+        },
+        {
+            "Pattern_Name": "The Blame/Reactivity Trap",
+            "Triggers": ["narcissist", "toxic", "abusive", "mean", "angry", "hate", "deal with"],
+            "Status_Quo_Message": "The problem is the other person (The Identified Patient).",
+            "Bowen_Bridge_Reframe": "Focus on self-regulation. You cannot change them, only your response to them.",
+            "Content_Angle": "Stop diagnosing your partner and start observing your reaction."
+        }
+    ]
+
+    # Flatten ngrams for searching
+    all_phrases = " ".join([item["Phrase"] for item in ngram_results]).lower()
+
+    for strategy in strategies:
+        found_triggers = [t for t in strategy["Triggers"] if t in all_phrases]
+        if found_triggers:
+            # Create a copy to avoid mutating the template if we were reusing it
+            rec = strategy.copy()
+            rec["Detected_Triggers"] = ", ".join(
+                found_triggers[:5])  # Limit to top 5 matches
+            recommendations.append(rec)
+
+    if not recommendations:
+        # Default fallback if no specific triggers found
+        recommendations.append({
+            "Pattern_Name": "General Differentiation",
+            "Detected_Triggers": "N/A",
+            "Status_Quo_Message": "Standard symptom-focused advice.",
+            "Bowen_Bridge_Reframe": "Focus on defining a self within the system.",
+            "Content_Angle": "How to be yourself in your important relationships."
+        })
+
+    return recommendations
 
 
 def main():
@@ -664,8 +735,8 @@ def main():
 
         time.sleep(1.2)  # Polite delay
 
-    # --- N-GRAM ANALYSIS (Bad Advice Detector) ---
-    print("Running N-Gram Analysis (Bad Advice Detector)...")
+    # --- N-GRAM ANALYSIS (SERP Language Patterns) ---
+    print("Running N-Gram Analysis (SERP Language Patterns)...")
 
     all_snippets = []
 
@@ -703,6 +774,11 @@ def main():
         ngram_results.append(
             {"Type": "Trigram", "Phrase": term, "Count": count})
 
+    # --- STRATEGIC ANALYSIS (The Bridge) ---
+    print("Generating Strategic Recommendations...")
+    strategic_recs = analyze_strategic_opportunities(ngram_results)
+    print(f"Generated {len(strategic_recs)} strategic recommendations.")
+
     # --- VISUALIZATION (Word Cloud) ---
     if VISUALIZATION_AVAILABLE:
         print("Generating Word Cloud...")
@@ -714,11 +790,50 @@ def main():
             plt.figure(figsize=(10, 5))
             plt.imshow(wc, interpolation='bilinear')
             plt.axis("off")
-            plt.title("Bad Advice Patterns (Competitor Language)")
-            plt.savefig("bad_advice_wordcloud.png")
+            plt.title("SERP Language Patterns (Competitor Language)")
+            plt.savefig("serp_language_wordcloud.png")
             plt.close()
     else:
         print("Skipping Word Cloud generation (libraries not installed).")
+
+    # --- PREPARE DATA FOR JSON & EXCEL ---
+    # Split Strategy_Expansion into Related_Searches and Derived_Expansions
+    related_searches_data = [
+        x for x in all_expansion if x.get("Type") == "Related Search"]
+    derived_expansions_data = [
+        x for x in all_expansion if x.get("Type") != "Related Search"]
+
+    full_data = {
+        "overview": all_metrics,
+        "organic_results": all_organic,
+        "paa_questions": all_paa,
+        "related_searches": related_searches_data,
+        "derived_expansions": derived_expansions_data,
+        "competitors_ads": all_competitors,
+        "serp_language_patterns": ngram_results,
+        "strategic_recommendations": strategic_recs,
+        "local_pack_and_maps": all_local_pack,
+        "ai_overview_citations": all_ai_citations,
+        "serp_modules": all_serp_modules,
+        "rich_features": all_rich_features,
+        "parsing_warnings": all_parsing_warnings,
+        "aio_logs": all_aio_logs
+    }
+
+    print(f"Saving JSON to {OUTPUT_JSON}...")
+    try:
+        with open(OUTPUT_JSON, 'w', encoding='utf-8') as f:
+            json.dump(full_data, f, indent=2, ensure_ascii=False)
+
+        # Save normalized audit trail (per requirements)
+        norm_dir = "normalized"
+        os.makedirs(norm_dir, exist_ok=True)
+        norm_path = f"{norm_dir}/{run_id}.serp_norm.json"
+        with open(norm_path, 'w', encoding='utf-8') as f:
+            json.dump(full_data, f, indent=2, ensure_ascii=False)
+        print(f"Saved normalized audit to {norm_path}")
+    except Exception as e:
+        logging.error(f"Error saving JSON file: {e}")
 
     print("Saving to Excel...")
     try:
@@ -729,21 +844,16 @@ def main():
                 writer, sheet_name="Organic_Results", index=False)
             pd.DataFrame(all_paa).to_excel(
                 writer, sheet_name="PAA_Questions", index=False)
-
-            # Split Strategy_Expansion into Related_Searches and Derived_Expansions
-            related_searches_data = [
-                x for x in all_expansion if x.get("Type") == "Related Search"]
-            derived_expansions_data = [
-                x for x in all_expansion if x.get("Type") != "Related Search"]
             pd.DataFrame(related_searches_data).to_excel(
                 writer, sheet_name="Related_Searches", index=False)
             pd.DataFrame(derived_expansions_data).to_excel(
                 writer, sheet_name="Derived_Expansions", index=False)
-
             pd.DataFrame(all_competitors).to_excel(
                 writer, sheet_name="Competitors_Ads", index=False)
             pd.DataFrame(ngram_results).to_excel(
-                writer, sheet_name="Bad_Advice_Patterns", index=False)
+                writer, sheet_name="SERP_Language_Patterns", index=False)
+            pd.DataFrame(strategic_recs).to_excel(
+                writer, sheet_name="Strategic_Recommendations", index=False)
             pd.DataFrame(all_local_pack).to_excel(
                 writer, sheet_name="Local_Pack_and_Maps", index=False)
             pd.DataFrame(all_ai_citations).to_excel(
@@ -760,6 +870,32 @@ def main():
         print(f"SUCCESS! Data saved to {OUTPUT_FILE}")
     except Exception as e:
         logging.error(f"Error saving Excel file (is it open?): {e}")
+
+    print("Generating Markdown Report...")
+    try:
+        md_content = []
+
+        # 1. Insight Report
+        md_content.append(generate_insight_report.generate_report(full_data))
+        md_content.append("\n---\n")
+
+        # 2. Content Briefs
+        recs = full_data.get("strategic_recommendations", [])
+        if recs:
+            md_content.append("# Content Briefs\n")
+            for i in range(len(recs)):
+                md_content.append(
+                    f"## Brief {i+1}: {recs[i].get('Pattern_Name')}")
+                md_content.append(
+                    generate_content_brief.generate_brief(full_data, rec_index=i))
+                md_content.append("\n---\n")
+
+        with open(OUTPUT_MD, "w", encoding="utf-8") as f:
+            f.write("\n".join(md_content))
+
+        print(f"SUCCESS! Report saved to {OUTPUT_MD}")
+    except Exception as e:
+        logging.error(f"Error saving Markdown report: {e}")
 
 
 if __name__ == "__main__":

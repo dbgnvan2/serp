@@ -45,7 +45,8 @@ The main script performs a Deep SERP Audit.
 - **`Related_Searches`:** Standard related searches from the bottom of the SERP.
 - **`Derived_Expansions`:** "People Also Search For" (PASF) terms extracted from organic results or knowledge boxes.
 - **`Competitors_Ads`:** Paid advertisements and their positioning.
-- **`Bad_Advice_Patterns`:** N-Gram analysis of snippets, ads, and PASF terms to identify "anxiety loops".
+- **`SERP_Language_Patterns`:** N-Gram analysis of snippets, ads, and PASF terms to identify dominant themes and "anxiety loops".
+- **`Strategic_Recommendations`:** Automated mapping of SERP patterns to Bowen Theory "Bridge" strategies (Medical Model, Fusion, Resources).
 - **`Local_Pack_and_Maps`:** Local business listings from the SERP and Google Maps.
 - **`AI_Overview_Citations`:** Citations and sources from AI Overviews.
 - **`SERP_Modules`:** Ordered list of all modules detected on the page.

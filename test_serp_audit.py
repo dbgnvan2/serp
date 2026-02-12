@@ -16,6 +16,14 @@ class TestSerpAudit(unittest.TestCase):
         self.assertNotIn("the quick", bigrams)
         self.assertEqual(len(bigrams), 6)
 
+    def test_get_ngrams_hyphenated(self):
+        """Test that hyphenated words are split, not merged."""
+        text = "highly-trained expert"
+        # Should become "highly trained expert", not "highlytrained expert"
+        bigrams = serp_audit.get_ngrams(text, 2)
+        self.assertIn("highly trained", bigrams)
+        self.assertNotIn("highlytrained", bigrams)
+
     def test_get_ngrams_empty_input(self):
         """Test handling of empty or non-string input."""
         self.assertEqual(serp_audit.get_ngrams(None, 2), [])
