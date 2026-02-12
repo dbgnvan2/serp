@@ -1,0 +1,11 @@
+# System
+__pycache__/
+.DS_Store
+venv/
+
+# Data & Output
+*.xlsx
+*.png
+
+# Secrets
+.env

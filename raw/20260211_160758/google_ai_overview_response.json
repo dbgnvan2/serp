@@ -1,0 +1,202 @@
+{
+  "search_metadata": {
+    "id": "698d19e16c4c0cbacccde269",
+    "status": "Success",
+    "json_endpoint": "https://serpapi.com/searches/SIxEESZdORZaNQ9T7c1_jg/698d19e16c4c0cbacccde269.json",
+    "created_at": "2026-02-12 00:08:01 UTC",
+    "processed_at": "2026-02-12 00:08:01 UTC",
+    "google_ai_overview_url": "https://www.google.com/async/folsrch?uule=w+CAIQICIhVmFuY291dmVyLEJyaXRpc2ggQ29sdW1iaWEsQ2FuYWRh&hl=en&gl=ca&yv=3&cs=0&ei=4BmNae-8EfLh2roP2c3a6Q4&async=_basejs:/xjs/_/js/k%3Dxjs.s.en.RPWQ94f0LRw.2019.O/am%3DAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAQQAAAKEAAAAQAAAAAAAAAAACAAAgACAAAAAAAAAAAAAAAAAAAAAAAAAAgIAEAAACQAAAAAAAAAAAAEAAAAIAAAAAAAAAAAMAAQAAAQQECBAAAAUAAAAAAAAAAAAAAAAAAAgEAgAAAAJJAAgP_tD2gAAAAAAABAAAAAAAAAAAAAAAAAkAAAAAAAAAAACwAAAITCAAAEQAgQAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAABAAAAAAKAACAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAIAIAAAAAAwAEAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAIYAAAAAAAQAGAAH4AAAIAAAAAAMABAABACAAAAADABYQIAAAEAAAAAEAOAI8HcIigAAAAAAAAAAAAAAAAAAAAAAAACIACMA4kPyAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAKsKmrBoAEA/dg%3D0/br%3D1/ichc%3D1/rs%3DACT90oFCmHqjxzBnvWvPLV0lwRVFVRLrsg/cb%3Dloaded_h_0,_basecss:/xjs/_/ss/k%3Dxjs.s.FlnWG4FXT9c.L.B1.O/am%3DAIAAAABBAAAAAAAAAAAAIACAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAACAEAAYBQABAAAAAAAAPgAAABSAAAAAAAAADwADECQAAAAAAAAAIAAEAAAACQAAAAAAAAAAAAEAAAAAAAAAIAAAAAAAAAQAAAQQAgAAAAAAAAAAAIAAAAAAAAAAAAAAEAkAAAAAIAAAAAAAHAAAAAAAAAAAAAAAAQAAAAAAgAwAMQAAAAEAIgRAAAAAAAAAAAEAAgAAAAAEACACBIgAICAAQAAAMAAAAAAAAAACIARBBAEgAAKIAAAAAcAAAAAAAAAAEAAAAAAAAAAgAAABAQgBBAAAAAIAABAAAAAyAEAAABAAAIAAQgEALwBiAEAACARAEAEACAAQAARAAAAQEEABAAAAAAAAAAAAMAIAAAAAAAAIAHARYQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA/br%3D1/cb%3Dloaded_h_0/rs%3DACT90oHWSiM4SshRlhkuDupiEm1_HjO5gg,_basecomb:/xjs/_/js/k%3Dxjs.s.en.RPWQ94f0LRw.2019.O/ck%3Dxjs.s.FlnWG4FXT9c.L.B1.O/am%3DAIAAAABBAAAAAAAAAAAAIACAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAIAAAQQAAAKEEAAYRQABAAAAAAAAPgAAgBSAAAAAAAAADwADECQAAAAAAAAAIgIEEAAACQAAAAAAAAAAAAEAAAAIAAAAIAAAAAAMAAQAAAQQEiBAAAAUAAAAAIAAAAAAAAAAAAAgEAkAAAAJJAAgP_tD3gAAAAAAABAAAAAAAQAAAAAAgAwkMQAAAAEAIgRCwAAAITCAAAEQAgQAAAAEACACBIgAICAASAAAMAAAAAAAAAACIARBBAEgAAKIACAAAcAAAAAAAAAAEAAAAAAAABAgAAABAQgBBAAAAAIAIBAAAAAyAEAAABAQAIAAQgEALwBiAEAACARAEAEACAIYAARAAAAQEGABH4AAAIAAAAAAMAJAABACAAAIAHARYQIAAAEAAAAAEAOAI8HcIigAAAAAAAAAAAAAAAAAAAAAAAACIACMA4kvyAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAKsKmrBoAEA/d%3D1/ed%3D1/dg%3D0/br%3D1/ujg%3D1/ichc%3D1/rs%3DACT90oHHsoQwACmFB3sYQtCjmfRTlffb3Q/cb%3Dloaded_h_0,_fmt:adl,_id:B2Jtyd&q=Free+counselling+North+Vancouver&mlro=0a7v1LPsj0V1cW7e2JD2-muU00-D9iX5zEVikQtgkyEC7ibN0IM2QqE-vNw5cO8s-6mLfgPWpPu6P9d0g-aBIAa6rgMvJld6cpQHOu1rnmXtzodgB1Vb_KDlVj5QmhO0f_cAVD5Ny8ww5tqP&mlros=Xs3YR5_dx_0&madse=1&mrc=CAA4gANQAWgAcAA&sca_esv=e73d2a95759f60cf&mgtyp=29&snr=1",
+    "raw_html_file": "https://serpapi.com/searches/SIxEESZdORZaNQ9T7c1_jg/698d19e16c4c0cbacccde269.html",
+    "total_time_taken": 4.15
+  },
+  "search_parameters": {
+    "engine": "google_ai_overview",
+    "page_token": "ra3YHXicxZbrcrI4GMc_74UsX_oqB0-lM8xOQKx4JLQv6icGAwQUxBKU2m97L3tVex17ARsQLVbb3c7szGYGEpInzyH5-R9__yMMNus_f_nLT9MteWDZLMvqOI5x6NZRHLE2OWwQ68UhSZD_224XulJ2pwANaormm1FvtxBE3onMw0gdHOy5sUUCxlAQiTPjA3umEihQm5nhM34ouRsGhxKymcNeajCISBzjBlJTjia2W7tXvZEvJLEuoIbdhk2mCC1ZS5u4K5rZ64qwFktf618bXfpRJ3V3Uzf0GRSbHjcysrrA8WJ9ytoRNQD_edPoAyF9DdX8E1aWFPrg4v1JwxrINynVTcVM4fXUxkevEKqKnH__vOVJpZFoGwzoWLfSroDLFfnKdl1NMcuDPec5qhBgeGV8I_vS4_Dm4u2Y2qmg7FgeuA70brsoBxA8AtBvgvNpjHPHchm1C-QFzBeODlUwBdp9H2kBvvJ4KkUDyhg01_rh6wSGZBglckxdsg6mzHDsMqEdzwbIR8UgITlKyrPIxT0l6r-sXt_kzX6210cmF2aG2TONUUIwi5bULoxtx3Us3-J-FNAicqaWVKnthZvZY7M3fxZRfVSX-TOyRfXyxZnSSsq6_1X77J4KJwsZvl-Ynp-e_HS26Gagq1b41MrzvoHsab1sR2RB9TaqUBe71hfT_Y_plTEwpWYMjzs0bFzGxeVAAYqsYaApx23jSpEaMOjpqdRyeAyFbmVeeJIBxOVJayeMD4WRfJyC9Ic2yuQgn1OAQbs8dB6yyAuq6iX84_eiNVqgcUT22y3-h3UNnBj9gFwV1f7sKRg3n4hvhP56191tAzXirf5q2sK4RDOOlt9QVPR_wFvR2xxe4wO8-Ct4saZ-pbdnmTnpbVDR28t7wyW8Z71tfNTbd3jXFXhv6e0FvE_gC3jzbbfgla_h1S7hhZ_Dm-ttCe8jkC_1dnDS2wq839bb_Tf0tmDYPXaX4rtb4U9FuN8nMcyAEvXkBlnAVFlFnvEcet6yAa9F2IvSB9sJf1iB8yALg_TgMC9SL3HdOxTvNsQN6V8ffDeJk9S_M-0Nndy7CROFSSxxdmfPj3Sy4kwezTquMOgKtWj3k-NqXTGYt95UM1jDFK8PqtIJlhNOGwvwRa3tJ1kLTe9JrR2NPKzPtvqurYsOh2u2rAG7neDxfhA6bbSF_emOTzbRPH2LHSzz5tIadkNz1YKRP-U8CwGz25oc7rOslb7oRVZEmpPGwmhZzqvFMZHtEFfimShBEr25JgYTCGY454YhyLZcspfcTsMRbLHVaYlem0MeE-H0sJUEkSGbROL_BpXc3c0"
+  },
+  "ai_overview": {
+    "text_blocks": [
+      {
+        "type": "paragraph",
+        "snippet": "Free or low-cost counseling in North Vancouver is available through several community agencies, offering support for individuals, families, and youth. Key resources include Family Services of the North Shore (up to 6 free sessions), CMHA North and West Vancouver (short-term, low-cost for adults), and Foundry North Shore (youth drop-in). Services often include phone, online, and in-person options.",
+        "reference_indexes": [
+          2,
+          5,
+          1,
+          3
+        ]
+      },
+      {
+        "type": "paragraph",
+        "snippet": "Key Free/Low-Cost Counseling Services in North Vancouver:"
+      },
+      {
+        "type": "list",
+        "list": [
+          {
+            "snippet": "Family Services of the North Shore: Offers free, short-term counselling (up to 6 sessions) for residents, particularly for those impacted by COVID-19, including anxiety, depression, and grief support. They also provide sliding-scale counseling."
+          },
+          {
+            "snippet": "CMHA North and West Vancouver: Provides short-term, low-cost, confidential, one-to-one counselling for adults (19+)."
+          },
+          {
+            "snippet": "Foundry North Shore: Offers free, drop-in mental health counselling for youth aged 12-24."
+          },
+          {
+            "snippet": "Peer Assisted Care Team (PACT): A community-led, mental health response for North and West Vancouver, available by calling 1-888-261-7228."
+          },
+          {
+            "snippet": "REACH Medical Clinic: Offers free virtual counseling sessions covered by MSP."
+          },
+          {
+            "snippet": "Parkgate Community Services Society: Provides community-based, low-cost counseling."
+          },
+          {
+            "snippet": "HealthLink BC (8-1-1): A service that can connect residents with local resources and mental health professionals."
+          }
+        ],
+        "reference_indexes": [
+          2,
+          5,
+          1,
+          3,
+          4,
+          8,
+          7,
+          0
+        ]
+      },
+      {
+        "type": "paragraph",
+        "snippet": "Other Resources:"
+      },
+      {
+        "type": "list",
+        "list": [
+          {
+            "snippet": "Hope for Wellness Help Line: 1-855-242-3310 (for Indigenous peoples)."
+          },
+          {
+            "snippet": "Crisis Centre of BC: 310-6789 (no area code needed)."
+          },
+          {
+            "snippet": "North Vancouver Family Justice Centre: Offers family counseling services."
+          }
+        ],
+        "reference_indexes": [
+          0,
+          9,
+          10,
+          6,
+          11
+        ]
+      },
+      {
+        "type": "paragraph",
+        "snippet": "It is recommended to call or check the websites of these organizations directly to confirm availability, eligibility, and wait times, as some programs are temporary or require intake assessments.",
+        "reference_indexes": [
+          4,
+          2,
+          0,
+          12
+        ]
+      }
+    ],
+    "references": [
+      {
+        "title": "Free or Low-Cost Services in BC - HelpStartsHere",
+        "link": "https://helpstartshere.gov.bc.ca/blog/free-or-low-cost-services-bc#:~:text=Free%20or%20low%2Dcost%20counselling,%2D800%2D663%2D1441.",
+        "snippet": "May 22, 2025 \u2014 Free or low-cost counselling. There are several ways to seek out free or low-cost services in BC. If you want to speak to a person...",
+        "source": "HelpStartsHere",
+        "index": 0
+      },
+      {
+        "title": "Counselling Services | CMHA North and West Vancouver ...",
+        "link": "https://northwestvancouver.cmha.bc.ca/programs-and-services/counselling/#:~:text=Counselling%20Services%20%7C%20CMHA%20North%20and,8%20sessions%20of%20individual%20counselling",
+        "snippet": "Counselling Services | CMHA North and West Vancouver Branch. Call: 1 (888) 261-7228 or Text: (778) 839-1831. Counselling. Services...",
+        "source": "CMHA North and West Vancouver Branch",
+        "index": 1
+      },
+      {
+        "title": "Virtual mental health supports - Province of British Columbia",
+        "link": "https://www2.gov.bc.ca/gov/content/health/managing-your-health/mental-health-substance-use/virtual-mental-health-supports",
+        "snippet": "Apr 30, 2025 \u2014 Lower Mainland * Canadian Mental Health Association, North and West Vancouver. Offering short-term, low-cost, confidential, one-to...",
+        "source": "Gov.bc.ca",
+        "index": 2
+      },
+      {
+        "title": "Youth Drop-In Mental Health Counselling at Foundry North ...",
+        "link": "https://www.vch.ca/en/location-service/youth-drop-mental-health-counselling-foundry-north-shore#:~:text=Monday:%201:00%20p.m.%20to,Learn%20about%20the%20location",
+        "snippet": "Monday: 1:00 p.m. to 5:00 p.m. Tuesday: 1:00 p.m. to 5:00 p.m. Wednesday: 1:00 p.m. to 5:00 p.m. Thursday: 1:00 p.m. to 5:00 p.m. ...",
+        "source": "Vancouver Coastal Health",
+        "index": 3
+      },
+      {
+        "title": "Counselling Support - North Vancouver - Pathways",
+        "link": "https://vancouver.pathwaysbc.ca/programs/2733#:~:text=Provided%20by%20Family%20Services%20of,Cost:%20Fees%20may%20apply",
+        "snippet": "Provided by Family Services of the North Shore. Counselling support is available on a sliding fee scale. Support is available for ...",
+        "source": "Pathways BC",
+        "index": 4
+      },
+      {
+        "title": "Family Services of the North Shore - Community Action Initiative",
+        "link": "https://caibc.ca/cai-counselling-profiles/family-services-of-the-north-shore/#:~:text=Family%20Services%20of%20the%20North%20Shore%20offers%20no%20fee/low,concerns%20due%20to%20COVID%2D19",
+        "snippet": "Family Services of the North Shore offers no fee/low fee counselling on a sliding fee scale to anyone living in the North Shore co...",
+        "source": "Community Action Initiative",
+        "index": 5
+      },
+      {
+        "title": "North Vancouver Family Justice Centre - Pathways",
+        "link": "https://sea-to-sky.pathwaysbc.ca/programs/1263#:~:text=North%20Vancouver%20Family%20Justice%20Centre.",
+        "snippet": "North Vancouver Family Justice Centre.",
+        "source": "Pathways BC",
+        "index": 6
+      },
+      {
+        "title": "Free or Low-Cost Counseling in North Vancouver, BC",
+        "link": "https://www.opencounseling.com/british-columbia/north-vancouver#:~:text=Parkgate%20Community%20Services%20Society,for%2Dprofit%20charit...",
+        "snippet": "Parkgate Community Services Society. Parkgate Community Services Society (PCSS) is a registered not-for-profit charitable society ...",
+        "source": "OpenCounseling",
+        "index": 7
+      },
+      {
+        "title": "Mental health supports and resources - HealthLink BC",
+        "link": "https://www.healthlinkbc.ca/mental-health-and-substance-use/mental-health/mental-health-supports-and-resources#:~:text=Peer%20Assisted%20Care%20Team%20(PACT,30%20am%2C%20Monday%20to%20Sunday",
+        "snippet": "Apr 30, 2025 \u2014 Peer Assisted Care Team (PACT) Provides a community-led, client-centered, trauma-informed response centered on the mental health a...",
+        "source": "HealthLink BC",
+        "index": 8
+      },
+      {
+        "title": "Mental Health and Wellness Supports",
+        "link": "https://www.fnha.ca/what-we-do/mental-wellness-and-substance-use/mental-health-and-wellness-supports#:~:text=Call%20toll%2Dfree%201%2D855%2D242%2D3310%20or%20start%20a%20confidential%20chat%20with%20a%20counsellor%20at%20hopeforwellness.ca%E2%80%8B.",
+        "snippet": "Call toll-free 1-855-242-3310 or start a confidential chat with a counsellor at hopeforwellness.ca\u200b.",
+        "source": "First Nations Health Authority",
+        "index": 9
+      },
+      {
+        "title": "Jordan's Principle",
+        "link": "https://www.sac-isc.gc.ca/eng/1568396042341/1568396159824#:~:text=Call%20the%20toll%2Dfree%20Helpline%20at%201%2D855%2D242%2D3310%20or%20connect%20to%20the%20online%20chat%20at%20www.hopeforwellness.ca.",
+        "snippet": "Call the toll-free Helpline at 1-855-242-3310 or connect to the online chat at www.hopeforwellness.ca.",
+        "source": "www.sac-isc.gc.ca",
+        "index": 10
+      },
+      {
+        "title": "Family Services of the North Shore: Home Page",
+        "link": "https://www.familyservices.bc.ca/#:~:text=We%20believe%20communities%20must%20take,Seniors%20&%20Caregivers%20Support%20%3E",
+        "snippet": "We believe communities must take care of their most vulnerable. Family Services of the North Shore is a non-profit, community-base...",
+        "source": "Family Services of the North Shore",
+        "thumbnail": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQUxNf1OdAXELqd-YxZpZdqwK-lYz8DXR19n1MovduThbxnt5s0",
+        "source_icon": "https://encrypted-tbn2.gstatic.com/faviconV2?url=https://www.familyservices.bc.ca&client=AIM&size=128&type=FAVICON&fallback_opts=TYPE,SIZE,URL",
+        "index": 11
+      },
+      {
+        "title": "COVID-19 Patient Community Resources",
+        "link": "https://www.emcfht.ca/wp-content/uploads/2020/04/EMCFHT-COVID-19_Community-Resources_April2020.pdf#:~:text=Many%20private%20therapists%20as%20well%20as%20agencies,whether%20new%20referrals%20are%20still%20being%20accepted.",
+        "snippet": "Many private therapists as well as agencies that offer low-cost/OHIP-covered counselling services have switched over to phone or o...",
+        "source": "Etobicoke medical centre Family Health Team",
+        "thumbnail": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpDZypGusUQgYi3keDjDlbd6sJdqtJk0li-GNUpuyoG_DRGUqB",
+        "source_icon": "https://encrypted-tbn2.gstatic.com/faviconV2?url=https://www.emcfht.ca&client=AIM&size=128&type=FAVICON&fallback_opts=TYPE,SIZE,URL",
+        "index": 12
+      }
+    ]
+  }
+}
