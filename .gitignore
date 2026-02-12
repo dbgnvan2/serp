@@ -6,6 +6,6 @@ venv/
 # Data & Output
 *.xlsx
 *.png
-
+normalized/
 # Secrets
 .env

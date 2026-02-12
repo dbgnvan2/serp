@@ -1,9 +1,9 @@
 # Market Intelligence Report
-**Run ID:** 20260212_070002 | **Date:** 2026-02-12T07:00:05.790061
+**Run ID:** 20260212_153502 | **Date:** 2026-02-12T15:35:11.593052
 
 ## 1. Market Overview
 - **Keywords Analyzed:** 2
-- **Total Search Volume (Proxy):** 983,000 results
+- **Total Search Volume (Proxy):** 5,302,000 results
 - **Dominant SERP Features:** Local Map Pack
 
 
@@ -18,16 +18,16 @@ What users are frantically searching for (Problem-Awareness).
 The dominant narrative in the market (Medical Model vs. Systemic).
 
 ### Top Recurring Phrases
-- **mental health** (3 occurrences)
+- **marriage family** (7 occurrences)
 - **low cost** (2 occurrences)
+- **mental health** (2 occurrences)
+- **get free** (2 occurrences)
+- **become marriage** (2 occurrences)
+- **become marriage family** (2 occurrences)
 - **offer education** (1 occurrences)
 - **education volunteer** (1 occurrences)
 - **volunteer engagement** (1 occurrences)
 - **engagement opportunities** (1 occurrences)
-- **opportunities reach** (1 occurrences)
-- **reach full** (1 occurrences)
-- **full potential** (1 occurrences)
-- **potential throughout** (1 occurrences)
 
 
 ## 4. Strategic Recommendations (The Bridge)
@@ -49,7 +49,28 @@ How to differentiate using Bowen Theory.
 - **Status Quo:** High anxiety about resources/access. Seeking immediate symptom relief (venting).
 - **The Reframe:** Address the anxiety driving the search. Cheap relief often delays real structural change.
 - **Content Angle:** *When 'free venting' costs you more than you think.*
-- *Triggers found:* free, low cost, affordable, covered, insurance
+- *Triggers found:* free, low cost
+
+## 5. SERP Composition (Enriched Data)
+### Entity Dominance (Top 10)
+- **commercial:** 61.5%
+- **nonprofit:** 30.8%
+- **directory:** 7.7%
+
+### Content Type Dominance (Top 10)
+- **other:** 61.5%
+- **guide:** 30.8%
+- **directory:** 7.7%
+
+
+## 6. Market Volatility
+**Volatility Score:** 0.13 (Avg rank change)
+**Stable URLs:** 14 / 15
+
+### 🚀 Top Movers (Winners)
+- **https://counsellingbc.com/counsellors/vancouver?category=332&approach=family%20therapy** (+2 positions) for 'Marriage and family therapist Vancouver'
+
+
 
 ---
 
@@ -159,14 +180,13 @@ The reader has likely already seen these headlines. Do NOT repeat them; challeng
 ## 1. The Core Conflict (The Hook)
 **The Status Quo (Bad Advice):** "High anxiety about resources/access. Seeking immediate symptom relief (venting)."
 **The Bowen Reframe (The Solution):** "Address the anxiety driving the search. Cheap relief often delays real structural change."
-**Target Audience Pain Point:** They are searching for *free, low cost, affordable, covered, insurance* and feeling anxious/stuck.
+**Target Audience Pain Point:** They are searching for *free, low cost* and feeling anxious/stuck.
 
 
 ## 2. User Intent & Anxiety (PAA)
 Address these specific questions to validate the reader's experience:
 - How to get free counselling in BC?
 - How to see a counsellor for free?
-- Is counselling covered by MSP in BC?
 
 
 ## 3. The Competition (What to Differentiate Against)

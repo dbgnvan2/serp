@@ -1,0 +1,10 @@
+pandas
+openpyxl
+requests
+beautifulsoup4
+pyyaml
+textblob
+wordcloud
+matplotlib
+google-search-results
+python-dotenv

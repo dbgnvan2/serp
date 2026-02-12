@@ -47,8 +47,10 @@ SPECS: List[SheetSpec] = [
         sheet_name="Organic_Results",
         json_key="organic_results",
         key_cols=("Run_ID", "Rank", "Link"),
-        normalize_text_cols=("Title", "Snippet", "Source"),
-        required_cols=("Run_ID", "Rank", "Title", "Link", "Snippet"),
+        normalize_text_cols=("Title", "Snippet", "Source",
+                             "Content_Type", "Entity_Type", "Word_Count", "Rank_Delta"),
+        required_cols=("Run_ID", "Rank", "Title", "Link",
+                       "Snippet", "Content_Type", "Entity_Type", "Word_Count", "Rank_Delta"),
     ),
     SheetSpec(
         sheet_name="PAA_Questions",
@@ -119,6 +121,13 @@ SPECS: List[SheetSpec] = [
         key_cols=("Run_ID", "Keyword"),
         normalize_text_cols=("error",),
         required_cols=("Run_ID", "Keyword", "has_ai_overview"),
+    ),
+    SheetSpec(
+        sheet_name="Autocomplete_Suggestions",
+        json_key="autocomplete_suggestions",
+        key_cols=("Run_ID", "Source_Keyword", "Rank"),
+        normalize_text_cols=("Suggestion", "Type"),
+        required_cols=("Run_ID", "Source_Keyword", "Rank", "Suggestion"),
     ),
     # Global aggregate
     SheetSpec(

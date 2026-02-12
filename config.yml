@@ -1,0 +1,25 @@
+serpapi:
+  engine: "google"
+  gl: "ca"
+  hl: "en"
+  location: "Vancouver, British Columbia, Canada"
+  num: 100
+  device: "desktop"
+
+files:
+  input_csv: "keywords.csv"
+  output_xlsx: "market_analysis_v2.xlsx"
+  output_json: "market_analysis_v2.json"
+  output_md: "market_analysis_v2.md"
+  domain_overrides: "domain_overrides.yml"
+
+enrichment:
+  enabled: true
+  max_urls_per_keyword: 5
+  timeout_seconds: 10
+  user_agent: "MarketIntelligenceBot/1.0"
+  enable_domain_age: false
+
+app:
+  force_local_intent: true
+  # Add extra stop words here if needed

@@ -1,0 +1,17 @@
+# Manual overrides for Entity Classification
+# Format: domain: entity_type
+# Entity Types: government, nonprofit, directory, commercial, education, media
+
+healthlinkbc.ca: government
+www2.gov.bc.ca: government
+canada.ca: government
+familyservices.bc.ca: nonprofit
+stjoes.ca: nonprofit
+foundrybc.ca: nonprofit
+psychologytoday.com: directory
+luminohealth.sunlife.ca: directory
+ratemds.com: directory
+vancouversun.com: media
+cbc.ca: media
+ubc.ca: education
+sfu.ca: education

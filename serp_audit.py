@@ -12,6 +12,12 @@ from openpyxl import Workbook
 import hashlib
 import generate_insight_report
 import generate_content_brief
+import yaml
+import metrics
+from urllib.parse import urlparse
+from classifiers import ContentClassifier, EntityClassifier
+from url_enricher import UrlEnricher
+from storage import SerpStorage
 
 try:
     from textblob import TextBlob
@@ -28,12 +34,27 @@ except ImportError:
 # --- CONFIGURATION ---
 load_dotenv()
 API_KEY = os.getenv("SERPAPI_KEY")
-INPUT_FILE = "keywords.csv"
-OUTPUT_FILE = "market_analysis_v2.xlsx"
-OUTPUT_JSON = "market_analysis_v2.json"
-OUTPUT_MD = "market_analysis_v2.md"
-LOCATION = "Vancouver, British Columbia, Canada"
-FORCE_LOCAL_INTENT = True
+
+# Load Config
+CONFIG = {}
+if os.path.exists("config.yml"):
+    with open("config.yml", "r") as f:
+        CONFIG = yaml.safe_load(f) or {}
+
+INPUT_FILE = CONFIG.get("files", {}).get("input_csv", "keywords.csv")
+OUTPUT_FILE = CONFIG.get("files", {}).get(
+    "output_xlsx", "market_analysis_v2.xlsx")
+OUTPUT_JSON = CONFIG.get("files", {}).get(
+    "output_json", "market_analysis_v2.json")
+OUTPUT_MD = CONFIG.get("files", {}).get("output_md", "market_analysis_v2.md")
+
+LOCATION = CONFIG.get("serpapi", {}).get(
+    "location", "Vancouver, British Columbia, Canada")
+FORCE_LOCAL_INTENT = CONFIG.get("app", {}).get("force_local_intent", True)
+ENRICHMENT_ENABLED = CONFIG.get("enrichment", {}).get("enabled", True)
+MAX_URLS_TO_ENRICH = CONFIG.get(
+    "enrichment", {}).get("max_urls_per_keyword", 5)
+
 STOP_WORDS = {"the", "and", "to", "of", "a", "in", "is", "for", "on", "with", "as", "at", "by", "an", "be", "or", "are", "from", "that",
               "this", "it", "we", "our", "us", "can", "will", "your", "you", "my", "me", "not", "have", "has", "but", "so", "if", "their", "they",
               "vancouver", "bc", "british", "columbia", "canada", "north", "west", "counselling", "counseling", "therapy", "therapist",
@@ -393,7 +414,11 @@ def parse_data(keyword, results, query_metadata):
                              "Title": item.get("title", "N/A"),
                              "Link": item.get("link", "N/A"),
                              "Snippet": item.get("snippet", "N/A"),
-                             "Source": item.get("source", "N/A")
+                             "Source": item.get("source", "N/A"),
+                             "Content_Type": "N/A",
+                             "Entity_Type": "N/A",
+                             "Word_Count": "N/A",
+                             "Rank_Delta": "N/A"
                              })
 
     # --- 2. PAA INTELLIGENCE (Questions) ---
@@ -670,6 +695,19 @@ def analyze_strategic_opportunities(ngram_results):
     return recommendations
 
 
+def fetch_autocomplete(keyword):
+    """Fetches Google Autocomplete suggestions."""
+    params = {
+        "engine": "google_autocomplete",
+        "q": keyword,
+        "gl": "ca",
+        "hl": "en",
+        "api_key": API_KEY
+    }
+    logging.info(f"  - Fetching Autocomplete for '{keyword}'...")
+    return _fetch_serp_api(params)
+
+
 def main():
     run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
     setup_logging(run_id)
@@ -693,6 +731,17 @@ def main():
         logging.error(f"Error reading CSV: {e}")
         return
 
+    # Initialize Enrichment Modules
+    if ENRICHMENT_ENABLED:
+        enricher = UrlEnricher(user_agent=CONFIG.get("enrichment", {}).get("user_agent", "MarketIntelligenceBot/1.0"),
+                               timeout=CONFIG.get("enrichment", {}).get("timeout_seconds", 10))
+        content_classifier = ContentClassifier()
+        entity_classifier = EntityClassifier(override_file=CONFIG.get(
+            "files", {}).get("domain_overrides", "domain_overrides.yml"))
+        storage = SerpStorage()
+        # Params hash updated per keyword later, but run init here
+        storage.save_run(run_id, "N/A")
+
     # Data Containers
     all_metrics = []
     all_organic = []
@@ -705,9 +754,11 @@ def main():
     all_rich_features = []
     all_parsing_warnings = []
     all_aio_logs = []
+    all_autocomplete = []
 
     print(f"--- Analyzing {len(keywords)} keywords ---")
     print(f"--- FORCE LOCAL INTENT: {FORCE_LOCAL_INTENT} ---")
+    print(f"--- BRIDGE STRATEGY: Mapping Symptoms -> Systems ---")
 
     for i, keyword in enumerate(keywords):
         print(f"\n{'='*60}")
@@ -732,6 +783,79 @@ def main():
                 all_serp_modules.extend(sm)
                 all_rich_features.extend(rf)
                 all_parsing_warnings.extend(pw)
+
+                # --- ENRICHMENT LOOP ---
+                if ENRICHMENT_ENABLED:
+                    print(f"  - Enriching {len(o)} organic results...")
+                    # Update run params hash in storage now that we have it
+                    storage.save_run(run_id, query_metadata["params_hash"])
+
+                    for item in o:
+                        url = item.get("Link")
+                        if not url or url == "N/A":
+                            continue
+
+                        # 1. Save basic SERP result to DB
+                        domain = urlparse(url).netloc
+                        storage.save_serp_result(
+                            run_id, keyword, "organic", item.get("Rank"),
+                            item.get("Title"), url, domain, item.get("Snippet")
+                        )
+
+                        # 2. Fetch & Enrich URL (Limit to top 5 to save time/bandwidth for now)
+                        try:
+                            rank_val = int(item.get("Rank", 99))
+                        except (ValueError, TypeError):
+                            rank_val = 99
+
+                        if rank_val <= MAX_URLS_TO_ENRICH:
+                            fetch_res = enricher.fetch_url(url)
+                            if fetch_res:
+                                features = enricher.extract_features(fetch_res)
+                                soup = features.get('soup')
+
+                                # Classify
+                                c_type, c_conf, c_ev = content_classifier.classify(
+                                    url, soup, fetch_res.get('headers'))
+                                e_type, e_conf, e_ev = entity_classifier.classify(
+                                    domain, soup)
+
+                                # Save Features
+                                storage.save_url_features(
+                                    url, fetch_res['status_code'], c_type,
+                                    features.get('schema_types', []),
+                                    features.get('word_count_est', 0),
+                                    c_ev
+                                )
+                                storage.save_domain_features(domain, e_type)
+
+                                # Optional: Add to item dict for Excel output?
+                                item['Content_Type'] = c_type
+                                item['Entity_Type'] = e_type
+                                item['Word_Count'] = features.get(
+                                    'word_count_est', "N/A")
+
+        # --- AUTOCOMPLETE ---
+        ac_data = fetch_autocomplete(keyword)
+        if ac_data and "suggestions" in ac_data:
+            for idx, s in enumerate(ac_data["suggestions"]):
+                # Handle both dict and string formats
+                val = s.get("value") if isinstance(s, dict) else s
+                rel = s.get("relevance") if isinstance(s, dict) else None
+                typ = s.get("type") if isinstance(s, dict) else None
+
+                all_autocomplete.append({
+                    "Run_ID": run_id,
+                    "Source_Keyword": keyword,
+                    "Rank": idx + 1,
+                    "Suggestion": val,
+                    "Relevance": rel,
+                    "Type": typ
+                })
+
+                if ENRICHMENT_ENABLED:
+                    storage.save_autocomplete_suggestion(
+                        run_id, keyword, val, idx + 1, rel, typ)
 
         time.sleep(1.2)  # Polite delay
 
@@ -759,6 +883,11 @@ def main():
         if e.get("Term"):
             all_snippets.append(e["Term"])
 
+    # 4. Autocomplete Suggestions
+    for a in all_autocomplete:
+        if a.get("Suggestion"):
+            all_snippets.append(a["Suggestion"])
+
     bigrams = []
     trigrams = []
 
@@ -778,6 +907,21 @@ def main():
     print("Generating Strategic Recommendations...")
     strategic_recs = analyze_strategic_opportunities(ngram_results)
     print(f"Generated {len(strategic_recs)} strategic recommendations.")
+
+    # --- MERGE RANK DELTAS (Volatility) ---
+    if ENRICHMENT_ENABLED:
+        print("Calculating Rank Deltas...")
+        deltas = metrics.get_rank_deltas(run_id)
+        if deltas:
+            count = 0
+            for item in all_organic:
+                url = item.get("Link")
+                if url in deltas:
+                    item["Rank_Delta"] = int(deltas[url])
+                    count += 1
+            print(f"Updated {count} rows with rank changes.")
+        else:
+            print("No historical data for rank comparison yet.")
 
     # --- VISUALIZATION (Word Cloud) ---
     if VISUALIZATION_AVAILABLE:
@@ -817,7 +961,8 @@ def main():
         "serp_modules": all_serp_modules,
         "rich_features": all_rich_features,
         "parsing_warnings": all_parsing_warnings,
-        "aio_logs": all_aio_logs
+        "aio_logs": all_aio_logs,
+        "autocomplete_suggestions": all_autocomplete
     }
 
     print(f"Saving JSON to {OUTPUT_JSON}...")
@@ -866,6 +1011,8 @@ def main():
                 writer, sheet_name="Parsing_Warnings", index=False)
             pd.DataFrame(all_aio_logs).to_excel(
                 writer, sheet_name="AIO_Logs", index=False)
+            pd.DataFrame(all_autocomplete).to_excel(
+                writer, sheet_name="Autocomplete_Suggestions", index=False)
 
         print(f"SUCCESS! Data saved to {OUTPUT_FILE}")
     except Exception as e:

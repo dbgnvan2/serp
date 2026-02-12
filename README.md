@@ -21,7 +21,7 @@ A Market Intelligence Tool designed to support the "Bridge Strategy" for a non-p
 2. Install dependencies:
 
    ```bash
-   pip install google-search-results pandas openpyxl wordcloud matplotlib python-dotenv textblob
+   pip install -r requirements.txt
    ```
 
 3. Set your API Key:
@@ -31,8 +31,25 @@ A Market Intelligence Tool designed to support the "Bridge Strategy" for a non-p
 
 ## Running the Tool
 
+To execute the full pipeline (Audit -> Validation -> Verification):
+
 ```bash
-python serp_audit.py
+python run_pipeline.py
+```
+
+## Utilities
+
+**Visualize Volatility:** Plot rank history for a keyword.
+
+```bash
+python visualize_volatility.py --list
+python visualize_volatility.py --keyword "Free counselling North Vancouver"
+```
+
+**Export History:** Dump SQLite database to CSVs.
+
+```bash
+python export_history.py
 ```
 
 ## Testing

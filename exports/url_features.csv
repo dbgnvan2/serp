@@ -1,0 +1,11 @@
+url,fetched_at,status_code,content_type,schema_types,word_count_est,evidence_json
+https://www.familyservices.bc.ca/find-support/counselling-support/,2026-02-12T12:52:43.789722,200,directory,"[""EntryPoint"", ""ReadAction"", ""WebPage"", ""PropertyValueSpecification"", ""ListItem"", ""BreadcrumbList"", ""SearchAction"", ""WebSite""]",826,"[""url_pattern_directory""]"
+https://helpstartshere.gov.bc.ca/blog/free-or-low-cost-services-bc,2026-02-12T12:52:44.104960,200,other,[],1396,"[""fallback""]"
+https://northwestvancouver.cmha.bc.ca/programs-and-services/counselling/,2026-02-12T12:52:44.558927,200,guide,"[""EntryPoint"", ""Organization"", ""ReadAction"", ""WebPage"", ""PropertyValueSpecification"", ""ListItem"", ""BreadcrumbList"", ""SearchAction"", ""WebSite"", ""ImageObject""]",2108,"[""high_word_count""]"
+https://www.vch.ca/en/location-service/youth-drop-mental-health-counselling-foundry-north-shore,2026-02-12T12:52:44.655735,403,other,[],82,"[""fallback""]"
+https://boomerangcc.ca/,2026-02-12T12:52:44.835240,200,other,"[""EntryPoint"", ""Organization"", ""ReadAction"", ""WebPage"", ""PropertyValueSpecification"", ""ListItem"", ""BreadcrumbList"", ""SearchAction"", ""WebSite"", ""ImageObject""]",1369,"[""fallback""]"
+https://vcfi.ca/,2026-02-12T12:52:59.444590,200,other,[],449,"[""fallback""]"
+https://www.psychologytoday.com/ca/therapists/bc/vancouver?category=marriage-counselling,2026-02-12T12:53:01.332228,200,guide,"[""Person"", ""GeoCoordinates"", ""Organization"", ""Place"", ""PostalAddress"", ""Country"", ""SearchResultsPage""]",4085,"[""high_word_count""]"
+https://burnabycounsellors.com/,2026-02-12T12:53:02.497132,200,guide,[],1818,"[""high_word_count""]"
+https://www.blueskywellnessclinic.ca/marriage-and-relationship-issues/,2026-02-12T12:53:03.072712,200,other,"[""AggregateRating"", ""aggregateOffer"", ""Product""]",1084,"[""fallback""]"
+https://skylarkclinic.ca/our-services/marriage-counselling/,2026-02-12T12:53:04.462088,200,guide,"[""EntryPoint"", ""Organization"", ""ReadAction"", ""WebPage"", ""PropertyValueSpecification"", ""ListItem"", ""BreadcrumbList"", ""SearchAction"", ""QuantitativeValue"", ""WebSite"", ""ImageObject""]",1508,"[""high_word_count""]"

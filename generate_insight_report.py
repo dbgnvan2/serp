@@ -10,6 +10,12 @@ import json
 import sys
 from datetime import datetime
 
+try:
+    import metrics
+    METRICS_AVAILABLE = True
+except ImportError:
+    METRICS_AVAILABLE = False
+
 
 def load_data(json_path):
     try:
@@ -125,6 +131,53 @@ def generate_report(data):
                     f"- *Triggers found:* {rec.get('Detected_Triggers')}")
     else:
         report.append("_No strategic recommendations generated._")
+
+    # 5. Advanced Metrics (Volatility & Dominance)
+    if METRICS_AVAILABLE:
+        # Extract Run ID
+        overview = data.get("overview", [])
+        run_id = overview[0].get("Run_ID") if overview else None
+
+        if run_id:
+            # Dominance
+            dominance = metrics.get_entity_dominance(run_id)
+            if dominance:
+                report.append("\n## 5. SERP Composition (Enriched Data)")
+
+                ents = dominance.get("entity_dominance", {})
+                if ents:
+                    report.append("### Entity Dominance (Top 10)")
+                    for k, v in sorted(ents.items(), key=lambda x: x[1], reverse=True):
+                        report.append(f"- **{k}:** {v}%")
+
+                conts = dominance.get("content_dominance", {})
+                if conts:
+                    report.append("\n### Content Type Dominance (Top 10)")
+                    for k, v in sorted(conts.items(), key=lambda x: x[1], reverse=True):
+                        report.append(f"- **{k}:** {v}%")
+                report.append("\n")
+
+            # Volatility
+            vol = metrics.get_volatility_metrics(run_id)
+            if vol and vol.get("status") == "success":
+                report.append("## 6. Market Volatility")
+                report.append(
+                    f"**Volatility Score:** {vol['volatility_score']} (Avg rank change)")
+                report.append(
+                    f"**Stable URLs:** {vol['stable_urls_count']} / {vol['total_compared']}")
+
+                if vol['winners']:
+                    report.append("\n### 🚀 Top Movers (Winners)")
+                    for w in vol['winners']:
+                        report.append(
+                            f"- **{w['url']}** (+{w['rank_delta']} positions) for '{w['keyword_text']}'")
+
+                if vol['losers']:
+                    report.append("\n### 🔻 Top Movers (Losers)")
+                    for l in vol['losers']:
+                        report.append(
+                            f"- **{l['url']}** ({l['rank_delta']} positions) for '{l['keyword_text']}'")
+                report.append("\n")
 
     return "\n".join(report)
 
