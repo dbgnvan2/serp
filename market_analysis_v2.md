@@ -1,9 +1,9 @@
 # Market Intelligence Report
-**Run ID:** 20260212_153502 | **Date:** 2026-02-12T15:35:11.593052
+**Run ID:** 20260212_155346 | **Date:** 2026-02-12T15:53:50.375962
 
 ## 1. Market Overview
 - **Keywords Analyzed:** 2
-- **Total Search Volume (Proxy):** 5,302,000 results
+- **Total Search Volume (Proxy):** 5,298,000 results
 - **Dominant SERP Features:** Local Map Pack
 
 
@@ -53,22 +53,21 @@ How to differentiate using Bowen Theory.
 
 ## 5. SERP Composition (Enriched Data)
 ### Entity Dominance (Top 10)
-- **commercial:** 61.5%
-- **nonprofit:** 30.8%
+- **commercial:** 69.2%
+- **nonprofit:** 23.1%
 - **directory:** 7.7%
 
 ### Content Type Dominance (Top 10)
 - **other:** 61.5%
-- **guide:** 30.8%
-- **directory:** 7.7%
+- **guide:** 38.5%
 
 
 ## 6. Market Volatility
-**Volatility Score:** 0.13 (Avg rank change)
-**Stable URLs:** 14 / 15
+**Volatility Score:** 0.23 (Avg rank change)
+**Stable URLs:** 12 / 13
 
 ### 🚀 Top Movers (Winners)
-- **https://counsellingbc.com/counsellors/vancouver?category=332&approach=family%20therapy** (+2 positions) for 'Marriage and family therapist Vancouver'
+- **https://www.jerichocounselling.com/couples-marriage-counselling/** (+3 positions) for 'Marriage and family therapist Vancouver'
 
 
 

@@ -1,0 +1,527 @@
+{
+  "search_metadata": {
+    "id": "698e68157d6e70773ada2a28",
+    "status": "Success",
+    "json_endpoint": "https://serpapi.com/searches/qo6REFvcZqh8r9hcauBS4w/698e68157d6e70773ada2a28.json",
+    "pixel_position_endpoint": "https://serpapi.com/searches/qo6REFvcZqh8r9hcauBS4w/698e68157d6e70773ada2a28.json_with_pixel_position",
+    "created_at": "2026-02-12 23:53:57 UTC",
+    "processed_at": "2026-02-12 23:53:57 UTC",
+    "google_url": "https://www.google.com/search?q=Marriage+and+family+therapist+Vancouver&oq=Marriage+and+family+therapist+Vancouver&uule=w+CAIQICIhVmFuY291dmVyLEJyaXRpc2ggQ29sdW1iaWEsQ2FuYWRh&hl=en&gl=ca&num=100&sourceid=chrome&ie=UTF-8",
+    "raw_html_file": "https://serpapi.com/searches/qo6REFvcZqh8r9hcauBS4w/698e68157d6e70773ada2a28.html",
+    "total_time_taken": 1.53
+  },
+  "search_parameters": {
+    "engine": "google",
+    "q": "Marriage and family therapist Vancouver",
+    "location_requested": "Vancouver, British Columbia, Canada",
+    "location_used": "Vancouver,British Columbia,Canada",
+    "google_domain": "google.com",
+    "hl": "en",
+    "gl": "ca",
+    "num": "100",
+    "device": "desktop"
+  },
+  "search_information": {
+    "query_displayed": "Marriage and family therapist Vancouver",
+    "total_results": 378000,
+    "time_taken_displayed": 0.57,
+    "organic_results_state": "Results for exact spelling"
+  },
+  "local_map": {
+    "image": "https://www.google.com/maps/vt/data=tPYBD0G5649n2R1fNTnhszgAVRrnjstlXFIHiAOiJ9K3s5VCYzaK-zaTCLdlfL9Lp4x4xpd_NJlC-5EP-ujvBNiwGWu_wLZM0SiOB70ormuzHRgHiO8bjbRUtyYn63ogjJs1HGo_FnlaEklKE34Z3oL427Nht_2b31Vju5M5oQ0KvHBSlLGd3Yr08HzfkVUFH4kFM3Q13pnC5_bv3qmAUE9VlNlHJKv3Mr8BA1Ta_hlHMflqIhTwGVsjXQvTP-paoIjBDCKu3uxC7TYyrmhIUwKM6Ly8jV3cgSCT2lZjmgqCBbELsM6SBptzrPZ5Ii692LDPljMHCxiLVxKHLwr3NNXSf880VvR453dgqMlfhIAH3DrXCAEzVRNR7Y0ojnXyCxW72CS8-PRV3F9KHgyD7T2LpP_WvBegjhd8ZNZeo6Z5NAepCChxiYxu1KxVfeDvfrIWt2fYoxZUPuKaVNroTKsXDTBbPWj5YgyOmB3LHDa5QMUVxO49rzOShbQPQ1SByEMdubDMe8kAVir247kFOblOHx2TTvmVrxfV0lW0szOHp8NYH1pCmDdJYdI7tCPPhDl6_q2wFKIk761atHC6ivqu8uif3cPfbPZZtWjsCVnzzZgCo4siCuuPc661o-RE22vNkXuL1X3txIFHUJYn3q9_C3PehNS9YAjJgTJG00RFw8HoogfcmdAFOOklHlsEviM-IRyLE-lSRvhbWazatUBOhOhI_F6yUr0LdBesOystCy0_lWU7hX8F2LfoR4RQC-RJrZbJK1AkkZMfsSEX1QbqaCp_si5xdkB4aSjjppiSGXhX0VDoOH1X7NngEYiyTIyaxpPJZ-gf_arEENa-0xy9hDxD5v6yrRvbqdKkjtdvY_3jLTc-SOIxl8rY88djP8S4LNSoxv_1FrZVIMWs9IRDfi_fweYB6HHzVJSZszIjykyI6boVHxatcBxaUtSWdOgExrv_3VwRKg7M-RHFiR4V4enTA531Hty7bwqQjkuYndwzFirjBh52ZJMiqD81BxGIXKTdDd2J6-6OXlLjyfR-ruSY1y48ZMJtHZ0K9For6Dqi_eGwc26CwMrzC76UGWxafAPjqPvFCy7jp6IGQJPmPBZyQ8zWUPCqbFPaKBoBURI2CRSVqcTBR6mpTEGwduC28Ux8aZa9nDaJA2OWRVuhqbCye8hfoz2eHydmQSfhtfpaa96K4IHsw-kJ6vzGgM3aGkY3sssCPJMXE_UkkUW_e-L7TQuMxWQV0GkXfpJxngJIfVXZqAxbaBOQ7L6_Cv6J3m58pvHEG2bzAJ7ZsrvlTJIQPl0jo8B-ELHrWdOUZkOnW4-QzOFozA5C9qP1fOIgczm3Fri8pyOd5smt_mD6HRp6qdfcXU9qCh21mJvooDwRuUy9foDGdspDbIIvb4dWvDFE-uwEfpGW-mDtEVUXLV6LANssRfS3GfEAg15ZHNEaIZEgOqnPeViNM1t29c2yOuvRzzsOaOHOdyODMTzIN7g1Z2nXvo3B_ZY5-Z-KinGf6BJvetN-Bq-j7oaXNY7zS_ptE-8F8kCBi0C_bhvdWMf1pDRatt0Ma6U562XHJVz01ZnlOohLRmCuJthzl-vMTAEIgEJyIGLihkseEUM_WhPvj-VAyFC4fDDRYy2zK04DtXhAIRle3ZwwAQLbbbN4YROb7sHwoIVz-TDKo8ZbSQV-b4lm-BVg_nuEGiSE4_dHbG-TbffLtcdBKb7trdG1LRjTmHFgsH1I_3VeQ5eJkjqcGf3sqHkay0Kba9Aw-NLo2BvuIRzbOLyLi3t0OvJb6XV2Z64PqsYI0NfbzI1x9-TwrA4Wg_k2OGWpTdLonZIVp4OtN_w_CZwE7LpjGaI7O1CxSYY-mWrAjqnCgUHtBQbCdCUoy5gK4a7w_sy08grEtpcFNe3tpYVkXeMdBvk6Jctylxklu2jCMJroY8WuzSacy5c9BL0sc2BQ4vRUaIshXXPvsUt8IcPL9SzScD9XdAjAiycbwkE4ZXxYjECIAYDsLXM5jQDdvBw9teKt9Q2aH5X4fr77FpxfmkdQfYGVz0i0jraByJUO-PstPpsLBuGurKMqp-cLKOMULiqVOjcaM71JLl7ppD8M0YSbFCkVm-agjGOeC0aE4mRusV4Dgspyps9SoWL70iSWRo7MECyLJ8rv76J-12j9cvCibrJ0MyxEiNM6R8vpK_ZDBe5VnNvZ93vxpheir7usbIL-m0qjL43IkNZcZxicrkAqFFRO1DhCkoNj11tz8ZdN8Ef7j6jfnzOL9g0lk6z26-plbvUO4Wp-_BpxeGjv0AR9RqAL5mDjesLJzq93pYKEmIkdkhb7Yqjhi4iySYcLCsU6qqvLQen5pcUBEI6ORD4fPOLV_0hv3RXo3ABjyOH07zmYl5Q0UNPaiELFLE-h-6pWRirW2IwxSIAr3Y-aEZWlEoKc4UnYxxwTxq_MEUqCPs39i7iXxgRCZ6nO1ZPM73TK-c43DJQ4IGYvSpZMP2XXDWuCtyjycqIaoFkXE-bXgRPx2_uTBHZYCmFJlMbgqZAQw6LmGQ3BZcJM4btZNdCY-iT6ql17iFU6A4mnlB96jCNJFwoWuxeHM1LQQmlBLjbmd_S1HghXGs7w4PfRuPNh4PTEd9QdnxvwJilaIfDh9RSSYFJ8jllt",
+    "gps_coordinates": {
+      "latitude": 49.27491688,
+      "longitude": -123.1202602
+    }
+  },
+  "local_results": {
+    "places": [
+      {
+        "position": 1,
+        "rating": 4.8,
+        "reviews": 99,
+        "reviews_original": "(99)",
+        "description": "\"Kolby is an amazing couple's counselor.\"",
+        "lsig": "AB86z5VD828MnUfZumy6g8_fqL9e",
+        "links": {
+          "website": "http://www.blueskywellnessclinic.ca/?utm_source=google&utm_medium=organic&utm_campaign=gmb",
+          "directions": "https://www.google.com/maps/dir//Blue+Sky+Counselling+%2B+Wellness+Clinic,+999+W+Broadway+Suite+590,+Vancouver,+BC+V5Z+1K5/data=!4m6!4m5!1m1!4e2!1m2!1m1!1s0x5486737603b86a7d:0x205b853ef28beece?sa=X&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQ48ADegQIIRAA&hl=en&gl=ca",
+          "schedule": "https://blueskywellnessclinic.janeapp.com/locations/blue-sky-counselling-wellness-clinic/book?hl=en-CA&gei=FWiOafCJML6K6-APv-_mqQc&rwg_token=AFd1xnES1Xh-s6F5KwvoqvYgV_hD34GthlSW8_Ui6r9wDtAoahF2854Q3XYmZwWWcVAqByF17Mp73X_Nc8Aa8baqRuJnf5hzzA%3D%3D&source=cat"
+        },
+        "place_id": "2331603737498087118",
+        "place_id_search": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&ludocid=2331603737498087118&num=100&q=Marriage+and+family+therapist+Vancouver",
+        "gps_coordinates": {
+          "latitude": 49.263515,
+          "longitude": -123.12633
+        },
+        "title": "Blue Sky Counselling + Wellness Clinic",
+        "type": "Marriage or relationship counselor",
+        "phone": "(604) 428-6046",
+        "address": "999 W Broadway Suite 590",
+        "hours": "Open \u00b7 Closes 9 p.m."
+      },
+      {
+        "position": 2,
+        "rating": 4.9,
+        "reviews": 57,
+        "reviews_original": "(57)",
+        "description": "\"I have been so fortunate to receive counselling services from Estairia Hong.\"",
+        "lsig": "AB86z5UWIoFluuy0K5QZrq26o2Jz",
+        "links": {
+          "website": "https://thrivedowntown.com/?utm_source=GBP&utm_medium=organic&utm_campaign=Google+Business+Profile&utm_id=Google+Business+Profile",
+          "directions": "https://www.google.com/maps/dir//Thrive+Downtown+Counselling+Centre,+470+Granville+St+%23518,+Vancouver,+BC+V6C+1V5/data=!4m6!4m5!1m1!4e2!1m2!1m1!1s0x548671789b9f2cef:0x194088d452f40aa?sa=X&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQ48ADegQIIBAA&hl=en&gl=ca"
+        },
+        "place_id": "113725293435240618",
+        "place_id_search": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&ludocid=113725293435240618&num=100&q=Marriage+and+family+therapist+Vancouver",
+        "gps_coordinates": {
+          "latitude": 49.28472,
+          "longitude": -123.11424
+        },
+        "title": "Thrive Downtown Counselling Centre",
+        "type": "Marriage or relationship counselor",
+        "phone": "(604) 227-0297",
+        "address": "470 Granville St #518",
+        "hours": "Open \u00b7 Closes 8 p.m."
+      },
+      {
+        "position": 3,
+        "rating": 4.9,
+        "reviews": 39,
+        "reviews_original": "(39)",
+        "description": "\"I had never experienced a counsellor who was so thorough!\"",
+        "lsig": "AB86z5VK_AuGLrWcTTq1Ir89nekB",
+        "links": {
+          "website": "https://counsellingservicesvancouver.com/",
+          "directions": "https://www.google.com/maps/dir//Stewart+%26+Associates+Counselling+Services+Inc.,+1118+Homer+St+Suite+227,+Vancouver,+BC+V6B+6L5/data=!4m6!4m5!1m1!4e2!1m2!1m1!1s0x548673d6897df7d9:0xa098eb4609fa9d8d?sa=X&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQ48ADegQIIhAA&hl=en&gl=ca"
+        },
+        "place_id": "11572257928576146829",
+        "place_id_search": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&ludocid=11572257928576146829&num=100&q=Marriage+and+family+therapist+Vancouver",
+        "gps_coordinates": {
+          "latitude": 49.275784,
+          "longitude": -123.12183
+        },
+        "title": "Stewart & Associates Counselling Services Inc.",
+        "type": "Marriage or relationship counselor",
+        "phone": "(604) 687-7171",
+        "address": "1118 Homer St Suite 227",
+        "hours": "Open \u00b7 Closes 5 p.m."
+      }
+    ],
+    "more_locations_link": "https://www.google.com/search?q=Marriage+and+family+therapist+Vancouver&sca_esv=a079968832e6ea06&gl=ca&hl=en&udm=1&lsack=FWiOafCJML6K6-APv-_mqQc&sa=X&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQjGp6BAguEAA"
+  },
+  "organic_results": [
+    {
+      "position": 1,
+      "title": "Vancouver Couple & Family Institute",
+      "link": "https://vcfi.ca/",
+      "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://vcfi.ca/&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQFnoECBkQAQ",
+      "displayed_link": "https://vcfi.ca",
+      "favicon": "https://serpapi.com/searches/698e68157d6e70773ada2a28/images/sziWRqA56TnOkgoNkkPjwuqI9Pu0fSfUsnkYxq-nO9g.png",
+      "snippet": "We help individuals, couples, and families reach their personal goals and build strong bonds in their most important relationships.",
+      "snippet_highlighted_words": [
+        "We help individuals, couples, and families"
+      ],
+      "about_this_result": {
+        "source": {
+          "description": "We help individuals, couples, and families reach their personal goals and build strong bonds in their most important relationships.",
+          "source_info_link": "https://vcfi.ca/",
+          "icon": "https://serpapi.com/searches/698e68157d6e70773ada2a28/images/sziWRqA56TnOkgoNkkPjwpSAboQ04yPDlimBi3pRfVhC91G2bzBb6uw9e10Lz3fd.png"
+        },
+        "languages": [
+          "en"
+        ],
+        "regions": [
+          "CA"
+        ]
+      },
+      "about_page_link": "https://www.google.com/search?q=About+https://vcfi.ca/&tbm=ilp",
+      "about_page_serpapi_link": "https://serpapi.com/search.json?engine=google_about_this_result&google_domain=google.com&q=About+https%3A%2F%2Fvcfi.ca%2F",
+      "source": "Vancouver Couple & Family Institute"
+    },
+    {
+      "position": 2,
+      "title": "Find Family Therapy and Psychologists in Vancouver, BC",
+      "link": "https://www.psychologytoday.com/ca/therapists/bc/vancouver?category=family-therapy",
+      "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.psychologytoday.com/ca/therapists/bc/vancouver%3Fcategory%3Dfamily-therapy&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQFnoECBcQAQ",
+      "displayed_link": "https://www.psychologytoday.com \u203a ... \u203a Vancouver",
+      "favicon": "https://serpapi.com/searches/698e68157d6e70773ada2a28/images/sziWRqA56TnOkgoNkkPjwokaNKPpjXN1aXJUvCrGPac.png",
+      "snippet": "Find the Right Family Therapy in Vancouver, BC - Rami Nijjar, PhD; Dr. Lisa Sperle, RPsych; Iona Monk, MA, RCC; Maya Tannis Jakob, MACP, RCC; Leslie Malchy, ...",
+      "snippet_highlighted_words": [
+        "Rami Nijjar, PhD"
+      ],
+      "about_this_result": {
+        "source": {
+          "description": "Find the Right Family Therapy in Vancouver, BC - Rami Nijjar, PhD; Dr. Lisa Sperle, RPsych; Iona Monk, MA, RCC; Maya Tannis Jakob, MACP, RCC; Leslie Malchy, ...",
+          "source_info_link": "https://www.psychologytoday.com/ca/therapists/bc/vancouver?category=family-therapy",
+          "icon": "https://serpapi.com/searches/698e68157d6e70773ada2a28/images/sziWRqA56TnOkgoNkkPjwnoCapZ3qu3WBWLgtMkgvSNobpwXrG2g4T4GGBQ9QX6X.png"
+        },
+        "languages": [
+          "en"
+        ],
+        "regions": [
+          "CA"
+        ]
+      },
+      "about_page_link": "https://www.google.com/search?q=About+https://www.psychologytoday.com/ca/therapists/bc/vancouver?category=family-therapy&tbm=ilp",
+      "about_page_serpapi_link": "https://serpapi.com/search.json?engine=google_about_this_result&google_domain=google.com&q=About+https%3A%2F%2Fwww.psychologytoday.com%2Fca%2Ftherapists%2Fbc%2Fvancouver%3Fcategory%3Dfamily-therapy",
+      "source": "Psychology Today"
+    },
+    {
+      "position": 3,
+      "title": "Couples and Relationship Counselling Vancouver",
+      "link": "https://www.blueskywellnessclinic.ca/marriage-and-relationship-issues/",
+      "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.blueskywellnessclinic.ca/marriage-and-relationship-issues/&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQFnoECEYQAQ",
+      "displayed_link": "https://www.blueskywellnessclinic.ca \u203a marriage-and-rel...",
+      "favicon": "https://serpapi.com/searches/698e68157d6e70773ada2a28/images/sziWRqA56TnOkgoNkkPjwqKB1ka2z9HHCIHIX6l2GTY.png",
+      "snippet": "Our counsellors at Blue Sky Wellness Clinic have extensive training in various modalities and real-world experience with multiple relationship types.",
+      "rich_snippet": {
+        "bottom": {
+          "detected_extensions": {
+            "price_from": 180.0,
+            "price_to": 220.0,
+            "currency": "$",
+            "rating": 4.8,
+            "reviews": 99
+          },
+          "extensions": [
+            "$180.00 to $220.00",
+            "4.8(99)"
+          ]
+        }
+      },
+      "about_this_result": {
+        "source": {
+          "description": "Our counsellors at Blue Sky Wellness Clinic have extensive training in various modalities and real-world experience with multiple relationship types.",
+          "source_info_link": "https://www.blueskywellnessclinic.ca/marriage-and-relationship-issues/",
+          "icon": "https://serpapi.com/searches/698e68157d6e70773ada2a28/images/sziWRqA56TnOkgoNkkPjwqocDelEP6WnHSCOwwJr0Uo8At6VmCqtbx3kfepfustS.png"
+        },
+        "languages": [
+          "en"
+        ],
+        "regions": [
+          "CA"
+        ]
+      },
+      "about_page_link": "https://www.google.com/search?q=About+https://www.blueskywellnessclinic.ca/marriage-and-relationship-issues/&tbm=ilp",
+      "about_page_serpapi_link": "https://serpapi.com/search.json?engine=google_about_this_result&google_domain=google.com&q=About+https%3A%2F%2Fwww.blueskywellnessclinic.ca%2Fmarriage-and-relationship-issues%2F",
+      "source": "Blue Sky Wellness Clinic"
+    },
+    {
+      "position": 4,
+      "title": "One Oak Counselling \u2013 Burnaby & Vancouver's Top Rated ...",
+      "link": "https://burnabycounsellors.com/",
+      "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://burnabycounsellors.com/&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQFnoECEgQAQ",
+      "displayed_link": "https://burnabycounsellors.com",
+      "favicon": "https://serpapi.com/searches/698e68157d6e70773ada2a28/images/sziWRqA56TnOkgoNkkPjwqOoZQ2nn_pe30EoRpCrVtw.png",
+      "snippet": "One Oak Counselling provides individual, relationship, and family therapy using strength-based, CBT, and Narrative Therapy approaches.",
+      "snippet_highlighted_words": [
+        "provides individual, relationship, and family therapy"
+      ],
+      "about_this_result": {
+        "source": {
+          "description": "One Oak Counselling provides individual, relationship, and family therapy using strength-based, CBT, and Narrative Therapy approaches.",
+          "source_info_link": "https://burnabycounsellors.com/",
+          "icon": "https://serpapi.com/searches/698e68157d6e70773ada2a28/images/sziWRqA56TnOkgoNkkPjwsEyjiUi33DCF9X4MXByFdxD6XOY3tlXARquDR1t5ffL.png"
+        },
+        "languages": [
+          "en"
+        ],
+        "regions": [
+          "CA"
+        ]
+      },
+      "about_page_link": "https://www.google.com/search?q=About+https://burnabycounsellors.com/&tbm=ilp",
+      "about_page_serpapi_link": "https://serpapi.com/search.json?engine=google_about_this_result&google_domain=google.com&q=About+https%3A%2F%2Fburnabycounsellors.com%2F",
+      "source": "One Oak Counselling"
+    },
+    {
+      "position": 5,
+      "title": "Couples & Marriage Therapy in Vancouver & Throughout BC",
+      "link": "https://www.jerichocounselling.com/couples-marriage-counselling/",
+      "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.jerichocounselling.com/couples-marriage-counselling/&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQFnoECEMQAQ",
+      "displayed_link": "https://www.jerichocounselling.com \u203a couples-marriage...",
+      "favicon": "https://serpapi.com/searches/698e68157d6e70773ada2a28/images/sziWRqA56TnOkgoNkkPjwpAbAk_zY_pz7gFb3LjPde8.png",
+      "snippet": "Our Counsellors have extensive training and experience providing marriage and relationship therapy. We use very active, 'here and now' approaches.",
+      "snippet_highlighted_words": [
+        "marriage",
+        "therapy"
+      ],
+      "about_this_result": {
+        "source": {
+          "description": "Our Counsellors have extensive training and experience providing marriage and relationship therapy. We use very active, 'here and now' approaches.",
+          "source_info_link": "https://www.jerichocounselling.com/couples-marriage-counselling/",
+          "icon": "https://serpapi.com/searches/698e68157d6e70773ada2a28/images/sziWRqA56TnOkgoNkkPjwoKQALP9e5lZOnnNsggkX3oLDkSVRCM_uBhPOppKvtlo.png"
+        },
+        "languages": [
+          "en"
+        ],
+        "regions": [
+          "CA"
+        ]
+      },
+      "about_page_link": "https://www.google.com/search?q=About+https://www.jerichocounselling.com/couples-marriage-counselling/&tbm=ilp",
+      "about_page_serpapi_link": "https://serpapi.com/search.json?engine=google_about_this_result&google_domain=google.com&q=About+https%3A%2F%2Fwww.jerichocounselling.com%2Fcouples-marriage-counselling%2F",
+      "source": "Jericho Counselling"
+    },
+    {
+      "position": 6,
+      "title": "ABOUT",
+      "link": "https://susangamache.com/about/",
+      "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://susangamache.com/about/&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQFnoECEQQAQ",
+      "displayed_link": "https://susangamache.com \u203a about",
+      "snippet": "Dr Susan Gamache is a Psychologist and MFT in private practice. She is a therapist, parent educator, mediator, trainer, author and media consultant. How ...",
+      "snippet_highlighted_words": [
+        "Dr Susan Gamache is a Psychologist and MFT in private practice"
+      ],
+      "about_this_result": {
+        "source": {
+          "description": "Dr Susan Gamache is a Psychologist and MFT in private practice. She is a therapist, parent educator, mediator, trainer, author and media consultant. How ...",
+          "source_info_link": "https://susangamache.com/about/"
+        },
+        "languages": [
+          "en"
+        ],
+        "regions": [
+          "CA"
+        ]
+      },
+      "about_page_link": "https://www.google.com/search?q=About+https://susangamache.com/about/&tbm=ilp",
+      "about_page_serpapi_link": "https://serpapi.com/search.json?engine=google_about_this_result&google_domain=google.com&q=About+https%3A%2F%2Fsusangamache.com%2Fabout%2F",
+      "source": "Susan Gamache"
+    },
+    {
+      "position": 7,
+      "title": "Find Family Therapy Counselling Psychologists, Therapists ...",
+      "link": "https://counsellingbc.com/counsellors/vancouver?category=332&approach=family%20therapy",
+      "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://counsellingbc.com/counsellors/vancouver%3Fcategory%3D332%26approach%3Dfamily%2520therapy&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQFnoECFoQAQ",
+      "displayed_link": "https://counsellingbc.com \u203a counsellors \u203a vancouver \u203a a...",
+      "favicon": "https://serpapi.com/searches/698e68157d6e70773ada2a28/images/sziWRqA56TnOkgoNkkPjwihAV2HENNI4wMXrgb4eg2k.png",
+      "snippet": "Discover the top counsellors in Vancouver. Explore our directory for expert Family Therapy counselling, psychological services, art therapy, ...",
+      "snippet_highlighted_words": [
+        "Explore our directory for expert Family Therapy counselling"
+      ],
+      "about_this_result": {
+        "source": {
+          "description": "Discover the top counsellors in Vancouver. Explore our directory for expert Family Therapy counselling, psychological services, art therapy, ...",
+          "source_info_link": "https://counsellingbc.com/counsellors/vancouver?category=332&approach=family%20therapy",
+          "icon": "https://serpapi.com/searches/698e68157d6e70773ada2a28/images/sziWRqA56TnOkgoNkkPjwvk7H7v06kzQbGIN8u669uvN563zlTW4NdadXJodTvGV.png"
+        },
+        "languages": [
+          "en"
+        ],
+        "regions": [
+          "CA"
+        ]
+      },
+      "about_page_link": "https://www.google.com/search?q=About+https://counsellingbc.com/counsellors/vancouver?category=332&approach=family%20therapy&tbm=ilp",
+      "about_page_serpapi_link": "https://serpapi.com/search.json?engine=google_about_this_result&google_domain=google.com&q=About+https%3A%2F%2Fcounsellingbc.com%2Fcounsellors%2Fvancouver%3Fcategory%3D332%26approach%3Dfamily%2520therapy",
+      "source": "Counselling BC"
+    },
+    {
+      "position": 8,
+      "title": "Home | Dr. Stephen Madigan Couples Therapist ...",
+      "link": "https://www.stephenmadigan.ca/",
+      "redirect_link": "https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.stephenmadigan.ca/&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQFnoECEcQAQ",
+      "displayed_link": "https://www.stephenmadigan.ca",
+      "favicon": "https://serpapi.com/searches/698e68157d6e70773ada2a28/images/sziWRqA56TnOkgoNkkPjwsokN0ss5P55MdNFo36LRLQ.png",
+      "date": "May 20, 2024",
+      "snippet": "Stephen is an award winning couple therapist who holds an MSW and, MSc and PhD in Couple and Family Therapy.",
+      "snippet_highlighted_words": [
+        "Stephen is an award winning couple therapist"
+      ],
+      "about_this_result": {
+        "source": {
+          "description": "Stephen is an award winning couple therapist who holds an MSW and, MSc and PhD in Couple and Family Therapy.",
+          "source_info_link": "https://www.stephenmadigan.ca/",
+          "icon": "https://serpapi.com/searches/698e68157d6e70773ada2a28/images/sziWRqA56TnOkgoNkkPjwsExYwxO6PC2Plr03Ajvu_gcGnKUgmEKieLmUm4jeElw.png"
+        },
+        "languages": [
+          "en"
+        ],
+        "regions": [
+          "CA"
+        ]
+      },
+      "about_page_link": "https://www.google.com/search?q=About+https://www.stephenmadigan.ca/&tbm=ilp",
+      "about_page_serpapi_link": "https://serpapi.com/search.json?engine=google_about_this_result&google_domain=google.com&q=About+https%3A%2F%2Fwww.stephenmadigan.ca%2F",
+      "source": "stephenmadigan.ca"
+    }
+  ],
+  "filters": [
+    {
+      "name": "Open now",
+      "parameters": {
+        "uds": "ALYpb_ncDc7jTlmw6Mmq7NjuX5c-9Cfw4T646Io9PWWXsdpg0heyWmpwAwPpwK4wqv08vKk7zn5SJBbxtzNhz4HaWQR3IIK3TZfGX61z4z6WUb51H1gN9TlpUADhqrVw9-FR1nm8QE1jZqGIPHtG-gzYtb7nTEN61F7Cp89xMwBG1epBmEF80F1LliqSc55sThIRWunw7jnoolv5VptG6C-PbVzzs1fO_s9dsvYCmPSNCMz1ivdrVoY",
+        "q": "Marriage and family therapist Vancouver open now"
+      },
+      "link": "https://www.google.com/search?sca_esv=a079968832e6ea06&gl=ca&hl=en&q=Marriage+and+family+therapist+Vancouver+open+now&uds=ALYpb_ncDc7jTlmw6Mmq7NjuX5c-9Cfw4T646Io9PWWXsdpg0heyWmpwAwPpwK4wqv08vKk7zn5SJBbxtzNhz4HaWQR3IIK3TZfGX61z4z6WUb51H1gN9TlpUADhqrVw9-FR1nm8QE1jZqGIPHtG-gzYtb7nTEN61F7Cp89xMwBG1epBmEF80F1LliqSc55sThIRWunw7jnoolv5VptG6C-PbVzzs1fO_s9dsvYCmPSNCMz1ivdrVoY&sa=X&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQxKsJKAB6BAgJEAE&ictx=0",
+      "serpapi_link": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&num=100&q=Marriage+and+family+therapist+Vancouver+open+now&uds=ALYpb_ncDc7jTlmw6Mmq7NjuX5c-9Cfw4T646Io9PWWXsdpg0heyWmpwAwPpwK4wqv08vKk7zn5SJBbxtzNhz4HaWQR3IIK3TZfGX61z4z6WUb51H1gN9TlpUADhqrVw9-FR1nm8QE1jZqGIPHtG-gzYtb7nTEN61F7Cp89xMwBG1epBmEF80F1LliqSc55sThIRWunw7jnoolv5VptG6C-PbVzzs1fO_s9dsvYCmPSNCMz1ivdrVoY"
+    },
+    {
+      "name": "Top rated",
+      "parameters": {
+        "uds": "ALYpb_ncDc7jTlmw6Mmq7NjuX5c-o1vkPvvdFPlnCIVKReJ5ze51SGr14ra9iwLARAad75GyVaVOt3_qQtNSelENvyzpe4QImPAovQYlgKrT6ct8COOvwyc5_tBH5U1WZNlBroM9-hp8t6Bd1FXxOOp5ookhUcUfs4JcfW0MII5V5uQNrahRvGFk_Y2ossTi8FdB54LjLUE-g5T_UvCqFOIKGI7aLElpVLPd-iOkVnc_Eq2rv4LSsHw",
+        "q": "top rated Marriage and family therapist Vancouver"
+      },
+      "link": "https://www.google.com/search?sca_esv=a079968832e6ea06&gl=ca&hl=en&q=top+rated+Marriage+and+family+therapist+Vancouver&uds=ALYpb_ncDc7jTlmw6Mmq7NjuX5c-o1vkPvvdFPlnCIVKReJ5ze51SGr14ra9iwLARAad75GyVaVOt3_qQtNSelENvyzpe4QImPAovQYlgKrT6ct8COOvwyc5_tBH5U1WZNlBroM9-hp8t6Bd1FXxOOp5ookhUcUfs4JcfW0MII5V5uQNrahRvGFk_Y2ossTi8FdB54LjLUE-g5T_UvCqFOIKGI7aLElpVLPd-iOkVnc_Eq2rv4LSsHw&sa=X&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQxKsJKAF6BAgKEAE&ictx=0",
+      "serpapi_link": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&num=100&q=top+rated+Marriage+and+family+therapist+Vancouver&uds=ALYpb_ncDc7jTlmw6Mmq7NjuX5c-o1vkPvvdFPlnCIVKReJ5ze51SGr14ra9iwLARAad75GyVaVOt3_qQtNSelENvyzpe4QImPAovQYlgKrT6ct8COOvwyc5_tBH5U1WZNlBroM9-hp8t6Bd1FXxOOp5ookhUcUfs4JcfW0MII5V5uQNrahRvGFk_Y2ossTi8FdB54LjLUE-g5T_UvCqFOIKGI7aLElpVLPd-iOkVnc_Eq2rv4LSsHw"
+    }
+  ],
+  "related_searches": [
+    {
+      "block_position": 1,
+      "query": "Couples counselling Vancouver",
+      "link": "https://www.google.com/search?sca_esv=a079968832e6ea06&gl=ca&hl=en&q=Couples+counselling+Vancouver&sa=X&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQ1QJ6BAhBEAE",
+      "serpapi_link": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&num=100&q=Couples+counselling+Vancouver"
+    },
+    {
+      "block_position": 1,
+      "query": "Best couples counselling Vancouver",
+      "link": "https://www.google.com/search?sca_esv=a079968832e6ea06&gl=ca&hl=en&q=Best+couples+counselling+Vancouver&sa=X&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQ1QJ6BAhKEAE",
+      "serpapi_link": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&num=100&q=Best+couples+counselling+Vancouver"
+    },
+    {
+      "block_position": 1,
+      "query": "Couples counselling Vancouver Reddit",
+      "link": "https://www.google.com/search?sca_esv=a079968832e6ea06&gl=ca&hl=en&q=Couples+counselling+Vancouver+Reddit&sa=X&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQ1QJ6BAhUEAE",
+      "serpapi_link": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&num=100&q=Couples+counselling+Vancouver+Reddit"
+    },
+    {
+      "block_position": 1,
+      "query": "Gottman Method Couples Therapy Vancouver",
+      "link": "https://www.google.com/search?sca_esv=a079968832e6ea06&gl=ca&hl=en&q=Gottman+Method+Couples+Therapy+Vancouver&sa=X&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQ1QJ6BAhOEAE",
+      "serpapi_link": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&num=100&q=Gottman+Method+Couples+Therapy+Vancouver"
+    },
+    {
+      "block_position": 1,
+      "query": "Couples counselling -- Burnaby",
+      "link": "https://www.google.com/search?sca_esv=a079968832e6ea06&gl=ca&hl=en&q=Couples+counselling+--+Burnaby&sa=X&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQ1QJ6BAhLEAE",
+      "serpapi_link": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&num=100&q=Couples+counselling+--+Burnaby"
+    },
+    {
+      "block_position": 1,
+      "query": "Vancouver couple and Family Institute",
+      "link": "https://www.google.com/search?sca_esv=a079968832e6ea06&gl=ca&hl=en&q=Vancouver+couple+and+Family+Institute&sa=X&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQ1QJ6BAhJEAE",
+      "serpapi_link": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&num=100&q=Vancouver+couple+and+Family+Institute"
+    },
+    {
+      "block_position": 1,
+      "query": "Couples counselling Coquitlam",
+      "link": "https://www.google.com/search?sca_esv=a079968832e6ea06&gl=ca&hl=en&q=Couples+counselling+Coquitlam&sa=X&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQ1QJ6BAhFEAE",
+      "serpapi_link": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&num=100&q=Couples+counselling+Coquitlam"
+    },
+    {
+      "block_position": 1,
+      "query": "Couples therapy Surrey",
+      "link": "https://www.google.com/search?sca_esv=a079968832e6ea06&gl=ca&hl=en&q=Couples+therapy+Surrey&sa=X&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQ1QJ6BAhCEAE",
+      "serpapi_link": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&num=100&q=Couples+therapy+Surrey"
+    }
+  ],
+  "discussions_and_forums": [
+    {
+      "title": "Anyone know a good couples therapist?",
+      "link": "https://www.reddit.com/r/vancouver/comments/16rg958/anyone_know_a_good_couples_therapist/",
+      "date": "2 years ago",
+      "extensions": [
+        "r/vancouver",
+        "10+ comments"
+      ],
+      "source": "Reddit",
+      "answers": [
+        {
+          "snippet": "My wife and I had great success with this guy. We recommended him to a friend couple as well ...",
+          "link": "https://www.reddit.com/r/vancouver/comments/16rg958/anyone_know_a_good_couples_therapist/k2362pq/",
+          "extensions": [
+            "Top answer",
+            "18 votes",
+            "2 years ago"
+          ]
+        },
+        {
+          "snippet": "There are lots of amazing therapists who specialize couples counseling in Vancouver! You can ...",
+          "link": "https://www.reddit.com/r/vancouver/comments/16rg958/anyone_know_a_good_couples_therapist/k23aynu/",
+          "extensions": [
+            "12 votes",
+            "2 years ago"
+          ]
+        },
+        {
+          "snippet": "Krause Counselling https://www.krausecounselling.com/",
+          "link": "https://www.reddit.com/r/vancouver/comments/16rg958/anyone_know_a_good_couples_therapist/k234u4a/",
+          "extensions": [
+            "5 votes",
+            "2 years ago"
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Where/How can I start looking for a therapist?",
+      "link": "https://www.reddit.com/r/NiceVancouver/comments/1gllfv3/wherehow_can_i_start_looking_for_a_therapist/",
+      "date": "1 year ago",
+      "extensions": [
+        "r/NiceVancouver",
+        "40+ comments"
+      ],
+      "source": "Reddit",
+      "answers": [
+        {
+          "snippet": "CounsellingBC: Psychologists, Counsellors ...",
+          "link": "https://www.reddit.com/r/NiceVancouver/comments/1gllfv3/wherehow_can_i_start_looking_for_a_therapist/lvv6721/",
+          "extensions": [
+            "Top answer",
+            "15 votes",
+            "a year ago"
+          ]
+        },
+        {
+          "snippet": "We found our Therapist through word of mouth as we were looking specifically for a ...",
+          "link": "https://www.reddit.com/r/NiceVancouver/comments/1gllfv3/wherehow_can_i_start_looking_for_a_therapist/n4erxfv/",
+          "extensions": [
+            "13 votes",
+            "6 months ago"
+          ]
+        },
+        {
+          "snippet": "Psychology Today",
+          "link": "https://www.reddit.com/r/NiceVancouver/comments/1gllfv3/wherehow_can_i_start_looking_for_a_therapist/lvwlb0m/",
+          "extensions": [
+            "7 votes",
+            "a year ago"
+          ]
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "current": 1,
+    "next": "https://www.google.com/search?q=Marriage+and+family+therapist+Vancouver&sca_esv=a079968832e6ea06&gl=ca&hl=en&ei=FWiOafCJML6K6-APv-_mqQc&start=10&sa=N&sstk=Af77f_fX8oUKEL7bBQrQ81fzdSH9PkkgKVJLOgt1WyKs2so0xozXU-KOyRMsDjqYAE0zewBNcYue2OvqZNK9CUdMRK8nwTmlEzHgtg&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQ8NMDegQIFhAW",
+    "other_pages": {
+      "2": "https://www.google.com/search?q=Marriage+and+family+therapist+Vancouver&sca_esv=a079968832e6ea06&gl=ca&hl=en&ei=FWiOafCJML6K6-APv-_mqQc&start=10&sa=N&sstk=Af77f_fX8oUKEL7bBQrQ81fzdSH9PkkgKVJLOgt1WyKs2so0xozXU-KOyRMsDjqYAE0zewBNcYue2OvqZNK9CUdMRK8nwTmlEzHgtg&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQ8tMDegQIFhAE",
+      "3": "https://www.google.com/search?q=Marriage+and+family+therapist+Vancouver&sca_esv=a079968832e6ea06&gl=ca&hl=en&ei=FWiOafCJML6K6-APv-_mqQc&start=20&sa=N&sstk=Af77f_fX8oUKEL7bBQrQ81fzdSH9PkkgKVJLOgt1WyKs2so0xozXU-KOyRMsDjqYAE0zewBNcYue2OvqZNK9CUdMRK8nwTmlEzHgtg&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQ8tMDegQIFhAG",
+      "4": "https://www.google.com/search?q=Marriage+and+family+therapist+Vancouver&sca_esv=a079968832e6ea06&gl=ca&hl=en&ei=FWiOafCJML6K6-APv-_mqQc&start=30&sa=N&sstk=Af77f_fX8oUKEL7bBQrQ81fzdSH9PkkgKVJLOgt1WyKs2so0xozXU-KOyRMsDjqYAE0zewBNcYue2OvqZNK9CUdMRK8nwTmlEzHgtg&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQ8tMDegQIFhAI",
+      "5": "https://www.google.com/search?q=Marriage+and+family+therapist+Vancouver&sca_esv=a079968832e6ea06&gl=ca&hl=en&ei=FWiOafCJML6K6-APv-_mqQc&start=40&sa=N&sstk=Af77f_fX8oUKEL7bBQrQ81fzdSH9PkkgKVJLOgt1WyKs2so0xozXU-KOyRMsDjqYAE0zewBNcYue2OvqZNK9CUdMRK8nwTmlEzHgtg&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQ8tMDegQIFhAK",
+      "6": "https://www.google.com/search?q=Marriage+and+family+therapist+Vancouver&sca_esv=a079968832e6ea06&gl=ca&hl=en&ei=FWiOafCJML6K6-APv-_mqQc&start=50&sa=N&sstk=Af77f_fX8oUKEL7bBQrQ81fzdSH9PkkgKVJLOgt1WyKs2so0xozXU-KOyRMsDjqYAE0zewBNcYue2OvqZNK9CUdMRK8nwTmlEzHgtg&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQ8tMDegQIFhAM",
+      "7": "https://www.google.com/search?q=Marriage+and+family+therapist+Vancouver&sca_esv=a079968832e6ea06&gl=ca&hl=en&ei=FWiOafCJML6K6-APv-_mqQc&start=60&sa=N&sstk=Af77f_fX8oUKEL7bBQrQ81fzdSH9PkkgKVJLOgt1WyKs2so0xozXU-KOyRMsDjqYAE0zewBNcYue2OvqZNK9CUdMRK8nwTmlEzHgtg&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQ8tMDegQIFhAO",
+      "8": "https://www.google.com/search?q=Marriage+and+family+therapist+Vancouver&sca_esv=a079968832e6ea06&gl=ca&hl=en&ei=FWiOafCJML6K6-APv-_mqQc&start=70&sa=N&sstk=Af77f_fX8oUKEL7bBQrQ81fzdSH9PkkgKVJLOgt1WyKs2so0xozXU-KOyRMsDjqYAE0zewBNcYue2OvqZNK9CUdMRK8nwTmlEzHgtg&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQ8tMDegQIFhAQ",
+      "9": "https://www.google.com/search?q=Marriage+and+family+therapist+Vancouver&sca_esv=a079968832e6ea06&gl=ca&hl=en&ei=FWiOafCJML6K6-APv-_mqQc&start=80&sa=N&sstk=Af77f_fX8oUKEL7bBQrQ81fzdSH9PkkgKVJLOgt1WyKs2so0xozXU-KOyRMsDjqYAE0zewBNcYue2OvqZNK9CUdMRK8nwTmlEzHgtg&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQ8tMDegQIFhAS",
+      "10": "https://www.google.com/search?q=Marriage+and+family+therapist+Vancouver&sca_esv=a079968832e6ea06&gl=ca&hl=en&ei=FWiOafCJML6K6-APv-_mqQc&start=90&sa=N&sstk=Af77f_fX8oUKEL7bBQrQ81fzdSH9PkkgKVJLOgt1WyKs2so0xozXU-KOyRMsDjqYAE0zewBNcYue2OvqZNK9CUdMRK8nwTmlEzHgtg&ved=2ahUKEwiw6Nmdk9WSAxU-xRoGHb-3OXUQ8tMDegQIFhAU"
+    }
+  },
+  "serpapi_pagination": {
+    "current": 1,
+    "next_link": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&num=100&q=Marriage+and+family+therapist+Vancouver&start=10",
+    "next": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&num=100&q=Marriage+and+family+therapist+Vancouver&start=10",
+    "other_pages": {
+      "2": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&num=100&q=Marriage+and+family+therapist+Vancouver&start=10",
+      "3": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&num=100&q=Marriage+and+family+therapist+Vancouver&start=20",
+      "4": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&num=100&q=Marriage+and+family+therapist+Vancouver&start=30",
+      "5": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&num=100&q=Marriage+and+family+therapist+Vancouver&start=40",
+      "6": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&num=100&q=Marriage+and+family+therapist+Vancouver&start=50",
+      "7": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&num=100&q=Marriage+and+family+therapist+Vancouver&start=60",
+      "8": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&num=100&q=Marriage+and+family+therapist+Vancouver&start=70",
+      "9": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&num=100&q=Marriage+and+family+therapist+Vancouver&start=80",
+      "10": "https://serpapi.com/search.json?device=desktop&engine=google&gl=ca&google_domain=google.com&hl=en&location=Vancouver%2C+British+Columbia%2C+Canada&num=100&q=Marriage+and+family+therapist+Vancouver&start=90"
+    }
+  }
+}
