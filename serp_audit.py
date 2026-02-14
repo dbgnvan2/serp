@@ -3,6 +3,7 @@ from serpapi import GoogleSearch
 import time
 import os
 import re
+import random
 from dotenv import load_dotenv
 import logging
 import json
@@ -50,6 +51,26 @@ OUTPUT_MD = CONFIG.get("files", {}).get("output_md", "market_analysis_v2.md")
 
 LOCATION = CONFIG.get("serpapi", {}).get(
     "location", "Vancouver, British Columbia, Canada")
+GOOGLE_ENGINE = CONFIG.get("serpapi", {}).get("engine", "google")
+GOOGLE_GL = CONFIG.get("serpapi", {}).get("gl", "ca")
+GOOGLE_HL = CONFIG.get("serpapi", {}).get("hl", "en")
+GOOGLE_DEVICE = CONFIG.get("serpapi", {}).get("device", "desktop")
+GOOGLE_NUM = int(CONFIG.get("serpapi", {}).get("num", 100))
+GOOGLE_MAX_PAGES = max(1, int(CONFIG.get("serpapi", {}).get("google_max_pages", 3)))
+GOOGLE_MAX_RESULTS = max(10, int(CONFIG.get("serpapi", {}).get("google_max_results", 300)))
+MAPS_MAX_PAGES = max(1, int(CONFIG.get("serpapi", {}).get("maps_max_pages", 3)))
+RETRY_MAX_ATTEMPTS = max(1, int(CONFIG.get("serpapi", {}).get("retry_max_attempts", 3)))
+RETRY_BACKOFF_SECONDS = float(CONFIG.get("serpapi", {}).get("retry_backoff_seconds", 1.0))
+REQUEST_DELAY_SECONDS = float(CONFIG.get("serpapi", {}).get("request_delay_seconds", 0.2))
+AI_FALLBACK_WITHOUT_LOCATION = bool(
+    CONFIG.get("serpapi", {}).get("ai_fallback_without_location", True)
+)
+RELATED_QUESTIONS_AI_FOLLOWUP = bool(
+    CONFIG.get("serpapi", {}).get("related_questions_ai_followup", True)
+)
+RELATED_QUESTIONS_AI_MAX_CALLS = max(
+    0, int(CONFIG.get("serpapi", {}).get("related_questions_ai_max_calls", 5))
+)
 FORCE_LOCAL_INTENT = CONFIG.get("app", {}).get("force_local_intent", True)
 ENRICHMENT_ENABLED = CONFIG.get("enrichment", {}).get("enabled", True)
 MAX_URLS_TO_ENRICH = CONFIG.get(
@@ -60,6 +81,25 @@ STOP_WORDS = {"the", "and", "to", "of", "a", "in", "is", "for", "on", "with", "a
               "vancouver", "bc", "british", "columbia", "canada", "north", "west", "counselling", "counseling", "therapy", "therapist",
               "counsellor", "counselor", "service", "services", "clinic", "centre", "center", "help", "support",
               "highlytrained"}
+
+
+def _env_bool(name, default=False):
+    """Read boolean env var with common truthy/falsey values."""
+    raw = os.getenv(name)
+    if raw is None:
+        return default
+    val = raw.strip().lower()
+    if val in {"1", "true", "yes", "y", "on"}:
+        return True
+    if val in {"0", "false", "no", "n", "off"}:
+        return False
+    return default
+
+
+AI_QUERY_ALTERNATIVES_ENABLED = _env_bool(
+    "SERP_ENABLE_AI_QUERY_ALTERNATIVES",
+    bool(CONFIG.get("app", {}).get("ai_query_alternatives_enabled", False))
+)
 
 
 def setup_logging(run_id):
@@ -83,18 +123,134 @@ def _fetch_serp_api(params):
     if "api_key" in log_params:
         log_params["api_key"] = "REDACTED"
     logging.info(f"API Call Parameters: {json.dumps(log_params, indent=2)}")
-    try:
-        search = GoogleSearch(params)
-        results = search.get_dict()
-        logging.info(f"API Return Message: {json.dumps(results, indent=2)}")
-        if "error" in results:
-            logging.error(f"API Error: {results['error']}")
-            return None
-        return results
-    except Exception as e:
-        logging.critical(
-            f"CRITICAL ERROR fetching with params {params.get('q')}: {e}")
+    for attempt in range(1, RETRY_MAX_ATTEMPTS + 1):
+        try:
+            search = GoogleSearch(params)
+            results = search.get_dict()
+            logging.info(f"API Return Message: {json.dumps(results, indent=2)}")
+            if "error" in results:
+                logging.error(f"API Error (attempt {attempt}): {results['error']}")
+                if attempt == RETRY_MAX_ATTEMPTS:
+                    return None
+            else:
+                return results
+        except Exception as e:
+            logging.error(
+                f"Fetch error (attempt {attempt}) for query '{params.get('q', 'N/A')}': {e}"
+            )
+            if attempt == RETRY_MAX_ATTEMPTS:
+                logging.critical(
+                    f"CRITICAL ERROR fetching with params {params.get('q')}: {e}"
+                )
+                return None
+        sleep_s = RETRY_BACKOFF_SECONDS * (2 ** (attempt - 1)) + random.uniform(0, 0.2)
+        time.sleep(sleep_s)
+    return None
+
+
+def _parse_start_from_pagination(results):
+    """Returns the next `start` integer from serpapi_pagination.next, if present."""
+    pagination = results.get("serpapi_pagination", {}) if isinstance(results, dict) else {}
+    next_link = pagination.get("next")
+    if not next_link:
         return None
+    match = re.search(r"[?&]start=(\d+)", next_link)
+    if not match:
+        return None
+    return int(match.group(1))
+
+
+def _merge_google_pages(pages):
+    """Merge selected paginated Google fields into a single response object."""
+    if not pages:
+        return {}
+
+    merged = dict(pages[0])
+    merged["organic_results"] = []
+    merged["related_questions"] = []
+    merged["related_searches"] = []
+    merged["discussions_and_forums"] = []
+    merged["pagination_pages_fetched"] = len(pages)
+
+    seen_org = set()
+    seen_paa = set()
+    seen_rel = set()
+    seen_forums = set()
+
+    for page in pages:
+        for item in page.get("organic_results", []) or []:
+            key = item.get("link") or f"{item.get('title')}|{item.get('position')}"
+            if key in seen_org:
+                continue
+            seen_org.add(key)
+            merged["organic_results"].append(item)
+
+        for item in page.get("related_questions", []) or []:
+            key = item.get("question")
+            if not key or key in seen_paa:
+                continue
+            seen_paa.add(key)
+            merged["related_questions"].append(item)
+
+        for item in page.get("related_searches", []) or []:
+            key = item.get("query")
+            if not key or key in seen_rel:
+                continue
+            seen_rel.add(key)
+            merged["related_searches"].append(item)
+
+        for item in page.get("discussions_and_forums", []) or []:
+            key = item.get("link") or item.get("title")
+            if not key or key in seen_forums:
+                continue
+            seen_forums.add(key)
+            merged["discussions_and_forums"].append(item)
+
+        if "ai_overview" not in merged and page.get("ai_overview"):
+            merged["ai_overview"] = page["ai_overview"]
+
+    return merged
+
+
+def _merge_maps_pages(pages):
+    """Merge paginated maps local results into a single response object."""
+    if not pages:
+        return {}
+    merged = dict(pages[0])
+    merged["local_results"] = []
+    merged["pagination_pages_fetched"] = len(pages)
+
+    seen_places = set()
+    for page in pages:
+        for place in page.get("local_results", []) or []:
+            key = place.get("place_id") or place.get("data_id") or f"{place.get('title')}|{place.get('address')}"
+            if key in seen_places:
+                continue
+            seen_places.add(key)
+            merged["local_results"].append(place)
+    return merged
+
+
+def _extract_text_blocks_text(item):
+    """Flattens AI related-question text blocks into a single snippet."""
+    blocks = item.get("text_blocks", [])
+    if not isinstance(blocks, list):
+        return None
+    parts = []
+    for block in blocks:
+        if not isinstance(block, dict):
+            continue
+        if block.get("text"):
+            parts.append(block.get("text"))
+        elif block.get("snippet"):
+            parts.append(block.get("snippet"))
+        if isinstance(block.get("list"), list):
+            for li in block.get("list"):
+                if isinstance(li, dict) and li.get("snippet"):
+                    parts.append(li.get("snippet"))
+    if not parts:
+        return None
+    return " ".join(parts)
 
 
 def save_raw_json(run_id, engine, data):
@@ -120,6 +276,9 @@ def fetch_serp_data(keyword, run_id):
         "page_token_received_at": None,
         "followup_started_at": None,
         "followup_latency_ms": None,
+        "google_pages_fetched": 0,
+        "maps_pages_fetched": 0,
+        "related_questions_ai_calls": 0,
         "error": None
     }
 
@@ -134,14 +293,14 @@ def fetch_serp_data(keyword, run_id):
     # To be safe and consistent, we hash the dictionary structure excluding the API key if we wanted,
     # but here we just hash the definition before the call.
     primary_params = {
-        "engine": "google",
+        "engine": GOOGLE_ENGINE,
         "q": query_term,
         "location": LOCATION,
-        "hl": "en",
-        "gl": "ca",
+        "hl": GOOGLE_HL,
+        "gl": GOOGLE_GL,
         "api_key": API_KEY,
-        "num": 100,
-        "device": "desktop",
+        "num": GOOGLE_NUM,
+        "device": GOOGLE_DEVICE,
         "no_cache": True
     }
 
@@ -167,6 +326,33 @@ def fetch_serp_data(keyword, run_id):
     query_metadata = {"run_id": run_id, "created_at": created_at,
                       "google_url": google_url, "params_hash": params_hash}
 
+    # Fetch additional Google pages, then merge.
+    google_pages = [primary_results]
+    seen_starts = set([0])
+    next_start = _parse_start_from_pagination(primary_results)
+
+    while (
+        next_start is not None
+        and len(google_pages) < GOOGLE_MAX_PAGES
+        and len(_merge_google_pages(google_pages).get("organic_results", [])) < GOOGLE_MAX_RESULTS
+    ):
+        if next_start in seen_starts:
+            break
+        seen_starts.add(next_start)
+        page_params = dict(primary_params)
+        page_params["start"] = next_start
+        logging.info(f"  - Fetching Google page start={next_start}...")
+        page_results = _fetch_serp_api(page_params)
+        if not page_results:
+            break
+        google_pages.append(page_results)
+        next_start = _parse_start_from_pagination(page_results)
+        time.sleep(REQUEST_DELAY_SECONDS)
+
+    primary_results = _merge_google_pages(google_pages)
+    aio_log["google_pages_fetched"] = len(google_pages)
+    query_metadata["google_pages_fetched"] = len(google_pages)
+
     # Log top-level keys for debugging
     logging.info(f"Main SERP Keys: {sorted(primary_results.keys())}")
 
@@ -181,6 +367,7 @@ def fetch_serp_data(keyword, run_id):
     logging.info(f"Module Flags: {json.dumps(module_flags, indent=2)}")
 
     all_results['google'] = primary_results
+    all_results['google_pages'] = google_pages
     save_raw_json(run_id, 'google', primary_results)
 
     # Update AIO log with audit fields
@@ -194,7 +381,28 @@ def fetch_serp_data(keyword, run_id):
 
     if not aio_data:
         aio_log["ai_overview_mode"] = "not_present"
-        logging.info("AIO absent in main SERP; skipping follow-up.")
+        logging.info("AIO absent in main SERP.")
+
+        if AI_FALLBACK_WITHOUT_LOCATION:
+            logging.info("  - Running AI fallback probe without location bias...")
+            fallback_params = {
+                "engine": GOOGLE_ENGINE,
+                "q": keyword,
+                "hl": GOOGLE_HL,
+                "gl": GOOGLE_GL,
+                "device": GOOGLE_DEVICE,
+                "num": 10,
+                "api_key": API_KEY,
+                "no_cache": True
+            }
+            fallback_results = _fetch_serp_api(fallback_params)
+            if fallback_results and fallback_results.get("ai_overview"):
+                all_results["google_ai_overview_probe"] = fallback_results.get("ai_overview", {})
+                aio_log["has_ai_overview"] = True
+                aio_log["ai_overview_mode"] = "fallback_without_location"
+                save_raw_json(run_id, 'google_ai_overview_probe', fallback_results)
+            else:
+                logging.info("  - AI fallback probe also returned no ai_overview.")
     else:
         aio_log["has_ai_overview"] = True
         page_token = aio_data.get("page_token")
@@ -233,6 +441,46 @@ def fetch_serp_data(keyword, run_id):
             # AI Overview is present but fully contained in the main response (no token needed)
             aio_log["ai_overview_mode"] = "direct_in_main"
 
+    # --- 2b. Related Questions Follow-up (AI-overview type) ---
+    if RELATED_QUESTIONS_AI_FOLLOWUP and RELATED_QUESTIONS_AI_MAX_CALLS > 0:
+        related_pages = []
+        token_queue = []
+        seen_tokens = set()
+
+        for item in primary_results.get("related_questions", []) or []:
+            token = item.get("next_page_token")
+            if token:
+                token_queue.append(token)
+
+        while token_queue and len(related_pages) < RELATED_QUESTIONS_AI_MAX_CALLS:
+            token = token_queue.pop(0)
+            if token in seen_tokens:
+                continue
+            seen_tokens.add(token)
+
+            rq_params = {
+                "engine": "google_related_questions",
+                "next_page_token": token,
+                "api_key": API_KEY,
+                "no_cache": True
+            }
+            rq_results = _fetch_serp_api(rq_params)
+            if not rq_results:
+                continue
+
+            related_pages.append(rq_results)
+            for rq_item in rq_results.get("related_questions", []) or []:
+                next_token = rq_item.get("next_page_token")
+                if next_token and next_token not in seen_tokens:
+                    token_queue.append(next_token)
+
+            time.sleep(REQUEST_DELAY_SECONDS)
+
+        if related_pages:
+            all_results["google_related_questions"] = related_pages
+            aio_log["related_questions_ai_calls"] = len(related_pages)
+            save_raw_json(run_id, "google_related_questions", related_pages)
+
     # --- 3. Google Maps Request (Conditional) ---
     # Logic: Call if 'local_results' are present OR if local intent is forced.
     has_local_pack = "local_results" in primary_results
@@ -245,15 +493,15 @@ def fetch_serp_data(keyword, run_id):
             "engine": "google_maps",
             "q": query_term,
             "type": "search",
-            "hl": "en",
-            "gl": "ca",
+            "hl": GOOGLE_HL,
+            "gl": GOOGLE_GL,
             "api_key": API_KEY,
             "no_cache": True
         }
 
         # Attempt to extract 'll' (latitude, longitude) from metadata to pin location
         # This ensures the maps view matches the SERP location context
-        meta = primary_results.get("serpapi_search_metadata", {})
+        meta = primary_results.get("serpapi_search_metadata", {}) or primary_results.get("search_metadata", {})
         maps_url = meta.get("google_maps_url", "")
         ll_match = re.search(r"[?&]ll=([0-9\.\-]+,[0-9\.\-]+)", maps_url)
 
@@ -267,8 +515,30 @@ def fetch_serp_data(keyword, run_id):
 
         maps_results = _fetch_serp_api(maps_params)
         if maps_results:
-            all_results['google_maps'] = maps_results
-            save_raw_json(run_id, 'google_maps', maps_results)
+            maps_pages = [maps_results]
+            seen_map_starts = set([0])
+            next_map_start = _parse_start_from_pagination(maps_results)
+
+            while next_map_start is not None and len(maps_pages) < MAPS_MAX_PAGES:
+                if next_map_start in seen_map_starts:
+                    break
+                seen_map_starts.add(next_map_start)
+                maps_page_params = dict(maps_params)
+                maps_page_params["start"] = next_map_start
+                logging.info(f"  - Fetching Google Maps page start={next_map_start}...")
+                maps_page = _fetch_serp_api(maps_page_params)
+                if not maps_page:
+                    break
+                maps_pages.append(maps_page)
+                next_map_start = _parse_start_from_pagination(maps_page)
+                time.sleep(REQUEST_DELAY_SECONDS)
+
+            merged_maps = _merge_maps_pages(maps_pages)
+            aio_log["maps_pages_fetched"] = len(maps_pages)
+            query_metadata["maps_pages_fetched"] = len(maps_pages)
+            all_results['google_maps'] = merged_maps
+            all_results['google_maps_pages'] = maps_pages
+            save_raw_json(run_id, 'google_maps', merged_maps)
 
     return all_results, aio_log, query_metadata
 
@@ -296,8 +566,9 @@ def parse_data(keyword, results, query_metadata):
     # --- 0. SERP MODULES & RICH FEATURES ---
     serp_modules = []
     rich_features = []
-    module_keys = ["top_ads", "ai_overview", "local_pack", "related_questions", "organic_results", "bottom_ads",
-                   "related_searches", "knowledge_graph", "inline_videos", "top_stories", "image_pack", "shopping_results"]
+    module_keys = ["top_ads", "ai_overview", "local_pack", "local_results", "related_questions", "organic_results",
+                   "bottom_ads", "related_searches", "knowledge_graph", "inline_videos", "top_stories",
+                   "image_pack", "shopping_results", "discussions_and_forums", "filters", "local_map"]
     for i, key in enumerate(module_keys):
         if key in primary_results:
             serp_modules.append({**common_fields, "Module": key,
@@ -359,33 +630,52 @@ def parse_data(keyword, results, query_metadata):
     metrics["Featured_Snippet_Snippet"] = answer_box.get("snippet", "N/A")
 
     # --- AI OVERVIEW (SGE) ---
-    ai_overview_data = results.get(
-        'google_ai_overview') or primary_results.get('ai_overview', {})
+    ai_candidate = (
+        results.get('google_ai_overview')
+        or results.get('google_ai_overview_probe')
+        or primary_results.get('ai_overview', {})
+    ) or {}
+    # google_ai_overview returns a full response envelope with ai_overview nested.
+    ai_overview_data = ai_candidate.get("ai_overview", ai_candidate)
+
+    related_ai_items = []
+    for page in results.get("google_related_questions", []) or []:
+        for rq_item in page.get("related_questions", []) or []:
+            if rq_item.get("type") == "ai_overview":
+                related_ai_items.append(rq_item)
+
+    related_ai_text = None
+    if related_ai_items:
+        related_ai_text = _extract_text_blocks_text(related_ai_items[0])
 
     # B. Don't overload "Has_AI_Overview"
     metrics["Has_Main_AI_Overview"] = bool(ai_overview_data)
 
-    if not ai_overview_data.get("snippet"):
+    ai_overview_text = ai_overview_data.get("snippet") or _extract_text_blocks_text(ai_overview_data)
+
+    if not ai_overview_text:
         parsing_warnings.append({**common_fields, "Module": "ai_overview",
                                 "Field": "snippet", "Message": "AI Overview snippet not found"})
 
-    metrics["AI_Overview"] = ai_overview_data.get("snippet", "N/A")
+    metrics["AI_Overview"] = ai_overview_text or related_ai_text or "N/A"
     metrics["AI_Reading_Level"] = calculate_reading_level(
         metrics["AI_Overview"])
     metrics["AI_Sentiment"] = calculate_sentiment(metrics["AI_Overview"])
     metrics["AI_Subjectivity"] = calculate_subjectivity(metrics["AI_Overview"])
 
     ai_citations = []
-    if "citations" in ai_overview_data:
-        for citation in ai_overview_data["citations"]:
-            if not citation.get("link"):
-                parsing_warnings.append({**common_fields,
-                                         "Module": "ai_citations", "Field": "link", "Message": "Citation link not found"})
-            ai_citations.append({**common_fields,
-                                 "Title": citation.get("title"),
-                                 "Link": citation.get("link"),
-                                 "Source": citation.get("source"),
-                                 })
+    citation_rows = ai_overview_data.get("citations") or ai_overview_data.get("references") or []
+    for citation in citation_rows:
+        if not isinstance(citation, dict):
+            continue
+        if not citation.get("link"):
+            parsing_warnings.append({**common_fields,
+                                     "Module": "ai_citations", "Field": "link", "Message": "Citation link not found"})
+        ai_citations.append({**common_fields,
+                             "Title": citation.get("title"),
+                             "Link": citation.get("link"),
+                             "Source": citation.get("source"),
+                             })
 
     # Capture Top 3 Organic Results (as per Project Context)
     for i in range(3):
@@ -471,6 +761,23 @@ def parse_data(keyword, results, query_metadata):
                              "Link": item.get("link")
                              })
 
+    if related_ai_items:
+        metrics["Has_PAA_AI_Overview"] = True
+        base_rank = len(paa_list)
+        for idx, item in enumerate(related_ai_items, start=1):
+            text_snippet = _extract_text_blocks_text(item)
+            refs = item.get("references", [])
+            first_ref = refs[0] if refs and isinstance(refs[0], dict) else {}
+            paa_list.append({**common_fields,
+                             "Rank": base_rank + idx,
+                             "Score": 10,
+                             "Category": "General",
+                             "Is_AI_Generated": True,
+                             "Question": item.get("question"),
+                             "Snippet": text_snippet,
+                             "Link": first_ref.get("link")
+                             })
+
     # --- 3. STRATEGY EXPANSION (Related Searches & PASF) ---
     # This is the "Gold Mine" for new content ideas
     expansion_list = []
@@ -481,6 +788,22 @@ def parse_data(keyword, results, query_metadata):
             expansion_list.append({**common_fields,
                                    "Type": "Related Search",
                                    "Term": item.get("query"),
+                                   "Link": item.get("link")
+                                   })
+
+    if "discussions_and_forums" in primary_results:
+        for item in primary_results["discussions_and_forums"]:
+            expansion_list.append({**common_fields,
+                                   "Type": "Discussion/Forum",
+                                   "Term": item.get("title"),
+                                   "Link": item.get("link")
+                                   })
+
+    if "filters" in primary_results:
+        for item in primary_results["filters"]:
+            expansion_list.append({**common_fields,
+                                   "Type": "SERP Filter",
+                                   "Term": item.get("name"),
                                    "Link": item.get("link")
                                    })
 
@@ -695,17 +1018,187 @@ def analyze_strategic_opportunities(ngram_results):
     return recommendations
 
 
+def _autocomplete_query_variants(keyword):
+    """Build fallback autocomplete queries for long/local phrases."""
+    q = (keyword or "").strip()
+    variants = [q]
+
+    city = LOCATION.split(",")[0].strip().lower()
+    lowered = q.lower()
+    if city:
+        for suffix in (f" in {city}", f" {city}"):
+            if lowered.endswith(suffix):
+                trimmed = q[:len(q) - len(suffix)].strip()
+                if trimmed:
+                    variants.append(trimmed)
+
+    for prefix in ("help with ", "help for ", "need help with "):
+        if lowered.startswith(prefix):
+            core = q[len(prefix):].strip()
+            if core:
+                variants.append(core)
+                variants.append(f"{core} help")
+            break
+
+    deduped = []
+    seen = set()
+    for item in variants:
+        key = item.lower()
+        if item and key not in seen:
+            seen.add(key)
+            deduped.append(item)
+    return deduped
+
+
+def _ai_query_alternatives(base_keyword):
+    """Generate two AI-likely informational alternatives for a base query."""
+    q = (base_keyword or "").strip()
+    if not q:
+        return []
+
+    city = LOCATION.split(",")[0].strip()
+    city_lower = city.lower()
+    base = q
+    base_lower = base.lower()
+
+    # Remove obvious local suffixes (often suppress AI overviews).
+    directional_city_pattern = rf"\s+in\s+(north|south|east|west)\s+{re.escape(city_lower)}$"
+    if re.search(directional_city_pattern, base_lower):
+        base = re.sub(directional_city_pattern, "", base, flags=re.I).strip()
+        base_lower = base.lower()
+    directional_city_pattern_2 = rf"\s+(north|south|east|west)\s+{re.escape(city_lower)}$"
+    if re.search(directional_city_pattern_2, base_lower):
+        base = re.sub(directional_city_pattern_2, "", base, flags=re.I).strip()
+        base_lower = base.lower()
+
+    for suffix in (f" in {city_lower}", f" near {city_lower}", f" {city_lower}"):
+        if base_lower.endswith(suffix):
+            base = base[:len(base) - len(suffix)].strip()
+            base_lower = base.lower()
+            break
+
+    base = re.sub(r"^(best|top)\s+", "", base, flags=re.I).strip()
+    base_lower = base.lower()
+    if not base:
+        return []
+
+    service_like_tokens = (
+        "counselling", "counseling", "counsellor", "counselor",
+        "therapist", "therapy", "psychologist", "mental health"
+    )
+    if any(tok in base_lower for tok in service_like_tokens):
+        alt1 = f"how to choose the right {base}?"
+        alt2 = f"how much does {base} cost in {city}?"
+    elif base_lower.startswith("help with "):
+        topic = base[10:].strip()
+        alt1 = f"what are effective ways to manage {topic}?"
+        alt2 = f"where to get help for {topic} in {city}?"
+    else:
+        alt1 = f"what are the best options for {base}?"
+        alt2 = f"how much does {base} cost in {city}?"
+
+    out = []
+    seen = set()
+    for candidate in (alt1, alt2):
+        normalized = candidate.strip()
+        key = normalized.lower()
+        if normalized and key != q.lower() and key not in seen:
+            out.append(normalized)
+            seen.add(key)
+    return out
+
+
+def expand_keywords_for_ai(keywords):
+    """
+    Build query execution list.
+    Returns tuples: (query_text, source_keyword, query_label).
+    """
+    expanded = []
+    for keyword in keywords:
+        base = (keyword or "").strip()
+        if not base:
+            continue
+        expanded.append((base, base, "A"))
+        if not AI_QUERY_ALTERNATIVES_ENABLED:
+            continue
+        ai_alts = _ai_query_alternatives(base)[:2]
+        for idx, alt in enumerate(ai_alts, start=1):
+            expanded.append((alt, base, f"A.{idx}"))
+    return expanded
+
+
 def fetch_autocomplete(keyword):
-    """Fetches Google Autocomplete suggestions."""
-    params = {
-        "engine": "google_autocomplete",
-        "q": keyword,
-        "gl": "ca",
-        "hl": "en",
-        "api_key": API_KEY
-    }
-    logging.info(f"  - Fetching Autocomplete for '{keyword}'...")
-    return _fetch_serp_api(params)
+    """Fetches Google Autocomplete suggestions with fallback variants."""
+    variants = _autocomplete_query_variants(keyword)
+    merged_suggestions = []
+    seen = set()
+    last_response = None
+
+    for variant in variants:
+        params = {
+            "engine": "google_autocomplete",
+            "q": variant,
+            "gl": GOOGLE_GL,
+            "hl": GOOGLE_HL,
+            "api_key": API_KEY
+        }
+        logging.info(f"  - Fetching Autocomplete for '{variant}'...")
+        response = _fetch_serp_api(params)
+        if not response:
+            continue
+        last_response = response
+
+        for s in response.get("suggestions", []) or []:
+            val = s.get("value") if isinstance(s, dict) else s
+            if not val:
+                continue
+            dedupe_key = val.strip().lower()
+            if dedupe_key in seen:
+                continue
+            seen.add(dedupe_key)
+            merged_suggestions.append(s)
+
+        # Keep API usage bounded once we have suggestions.
+        if merged_suggestions:
+            break
+
+    if not last_response:
+        return None
+
+    out = dict(last_response)
+    out["suggestions"] = merged_suggestions
+    out["query_variants_tried"] = variants
+    return out
+
+
+def build_help_rows():
+    """Guidance rows for why specific sheets may be empty."""
+    return [
+        {
+            "Tab": "AI_Overview_Citations",
+            "Trigger": "Google returns AI Overview with references/citations.",
+            "Likely_Query_Type": "Informational queries like 'how to choose a counsellor' or 'how much does counselling cost'.",
+            "Why_Empty": "Local/commercial intent (e.g., 'best', 'near me', 'in [city]') often shows maps/ads/organic instead of AI Overview."
+        },
+        {
+            "Tab": "Rich_Features",
+            "Trigger": "SERP contains modules like videos, top stories, image pack, shopping, or knowledge graph.",
+            "Likely_Query_Type": "News/video/image/product/entity intent queries.",
+            "Why_Empty": "Local service intent often returns map pack + PAA without these modules."
+        },
+        {
+            "Tab": "Autocomplete_Suggestions",
+            "Trigger": "Autocomplete endpoint returns suggestion strings.",
+            "Likely_Query_Type": "Shorter seed phrases like 'stress counselling' or 'help with stress'.",
+            "Why_Empty": "Long-tail full phrases can return no autocomplete suggestions."
+        },
+        {
+            "Tab": "AI_Query_Generator (GUI Option)",
+            "Trigger": "Enable 'Run 2 AI-likely alternatives (A.1, A.2)' in the launcher.",
+            "Likely_Query_Type": "Local seed query A plus two informational alternatives A.1/A.2.",
+            "Why_Empty": "If disabled, only base query A runs; fewer chances to trigger AI Overview."
+        }
+    ]
 
 
 def main():
@@ -730,6 +1223,8 @@ def main():
     except Exception as e:
         logging.error(f"Error reading CSV: {e}")
         return
+
+    query_jobs = expand_keywords_for_ai(keywords)
 
     # Initialize Enrichment Modules
     if ENRICHMENT_ENABLED:
@@ -756,32 +1251,78 @@ def main():
     all_aio_logs = []
     all_autocomplete = []
 
-    print(f"--- Analyzing {len(keywords)} keywords ---")
+    print(f"--- Base keywords: {len(keywords)} ---")
+    print(f"--- AI query alternatives enabled: {AI_QUERY_ALTERNATIVES_ENABLED} ---")
+    print(f"--- Queries to run: {len(query_jobs)} ---")
     print(f"--- FORCE LOCAL INTENT: {FORCE_LOCAL_INTENT} ---")
     print(f"--- BRIDGE STRATEGY: Mapping Symptoms -> Systems ---")
 
-    for i, keyword in enumerate(keywords):
+    for i, (keyword, source_keyword, query_label) in enumerate(query_jobs):
         print(f"\n{'='*60}")
-        print(f"[{i+1}/{len(keywords)}] Analyzing: {keyword}")
+        print(
+            f"[{i+1}/{len(query_jobs)}] Analyzing ({query_label}) source='{source_keyword}' query='{keyword}'"
+        )
         print(f"{'='*60}\n")
 
         raw_data_dict, aio_log, query_metadata = fetch_serp_data(
             keyword, run_id)
+        aio_log["Source_Keyword"] = source_keyword
+        aio_log["Query_Label"] = query_label
+        aio_log["Executed_Query"] = keyword
         all_aio_logs.append(aio_log)
 
         if raw_data_dict:
             m, o, p, e, c, lp, ac, sm, rf, pw = parse_data(
                 keyword, raw_data_dict, query_metadata)
             if m:  # Only append if parsing was successful
+                m["Source_Keyword"] = source_keyword
+                m["Query_Label"] = query_label
+                m["Executed_Query"] = keyword
                 all_metrics.append(m)
+                for row in o:
+                    row["Source_Keyword"] = source_keyword
+                    row["Query_Label"] = query_label
+                    row["Executed_Query"] = keyword
                 all_organic.extend(o)
+                for row in p:
+                    row["Source_Keyword"] = source_keyword
+                    row["Query_Label"] = query_label
+                    row["Executed_Query"] = keyword
                 all_paa.extend(p)
+                for row in e:
+                    row["Source_Keyword"] = source_keyword
+                    row["Query_Label"] = query_label
+                    row["Executed_Query"] = keyword
                 all_expansion.extend(e)
+                for row in c:
+                    row["Source_Keyword"] = source_keyword
+                    row["Query_Label"] = query_label
+                    row["Executed_Query"] = keyword
                 all_competitors.extend(c)
+                for row in lp:
+                    row["Source_Keyword"] = source_keyword
+                    row["Query_Label"] = query_label
+                    row["Executed_Query"] = keyword
                 all_local_pack.extend(lp)
+                for row in ac:
+                    row["Source_Keyword"] = source_keyword
+                    row["Query_Label"] = query_label
+                    row["Executed_Query"] = keyword
                 all_ai_citations.extend(ac)
+                for row in sm:
+                    row["Source_Keyword"] = source_keyword
+                    row["Query_Label"] = query_label
+                    row["Executed_Query"] = keyword
                 all_serp_modules.extend(sm)
+                for row in rf:
+                    row["Source_Keyword"] = source_keyword
+                    row["Query_Label"] = query_label
+                    row["Executed_Query"] = keyword
                 all_rich_features.extend(rf)
+                for row in pw:
+                    row["Source_Keyword"] = source_keyword
+                    row["Query_Label"] = query_label
+                    row["Executed_Query"] = keyword
                 all_parsing_warnings.extend(pw)
 
                 # --- ENRICHMENT LOOP ---
@@ -798,7 +1339,7 @@ def main():
                         # 1. Save basic SERP result to DB
                         domain = urlparse(url).netloc
                         storage.save_serp_result(
-                            run_id, keyword, "organic", item.get("Rank"),
+                            run_id, source_keyword, "organic", item.get("Rank"),
                             item.get("Title"), url, domain, item.get("Snippet")
                         )
 
@@ -846,7 +1387,9 @@ def main():
 
                 all_autocomplete.append({
                     "Run_ID": run_id,
-                    "Source_Keyword": keyword,
+                    "Source_Keyword": source_keyword,
+                    "Query_Label": query_label,
+                    "Executed_Query": keyword,
                     "Rank": idx + 1,
                     "Suggestion": val,
                     "Relevance": rel,
@@ -855,7 +1398,7 @@ def main():
 
                 if ENRICHMENT_ENABLED:
                     storage.save_autocomplete_suggestion(
-                        run_id, keyword, val, idx + 1, rel, typ)
+                        run_id, source_keyword, val, idx + 1, rel, typ)
 
         time.sleep(1.2)  # Polite delay
 
@@ -946,6 +1489,7 @@ def main():
         x for x in all_expansion if x.get("Type") == "Related Search"]
     derived_expansions_data = [
         x for x in all_expansion if x.get("Type") != "Related Search"]
+    help_rows = build_help_rows()
 
     full_data = {
         "overview": all_metrics,
@@ -962,7 +1506,8 @@ def main():
         "rich_features": all_rich_features,
         "parsing_warnings": all_parsing_warnings,
         "aio_logs": all_aio_logs,
-        "autocomplete_suggestions": all_autocomplete
+        "autocomplete_suggestions": all_autocomplete,
+        "help_guide": help_rows
     }
 
     print(f"Saving JSON to {OUTPUT_JSON}...")
@@ -1013,6 +1558,8 @@ def main():
                 writer, sheet_name="AIO_Logs", index=False)
             pd.DataFrame(all_autocomplete).to_excel(
                 writer, sheet_name="Autocomplete_Suggestions", index=False)
+            pd.DataFrame(help_rows).to_excel(
+                writer, sheet_name="Help", index=False)
 
         print(f"SUCCESS! Data saved to {OUTPUT_FILE}")
     except Exception as e:

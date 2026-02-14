@@ -67,6 +67,7 @@ class SerpLauncherApp:
                     "WHEN: Run this once per day or weekly.\n\n"
                     "WHY: This is the 'Daily Driver'. It performs the full audit:\n"
                     "  - Fetches SERP data (Google, Maps, AI)\n"
+                    "  - Optional: runs AI-likely query alternatives A.1 and A.2\n"
                     "  - Enriches data (HTML parsing, Entity Classification)\n"
                     "  - Stores history in SQLite\n"
                     "  - Generates Excel/Markdown reports\n"
@@ -120,6 +121,14 @@ class SerpLauncherApp:
         btn_frame = ttk.Frame(root)
         btn_frame.pack(pady=10, fill="x", padx=20)
 
+        self.ai_query_alts_var = tk.BooleanVar(value=False)
+        self.ai_query_alts_chk = ttk.Checkbutton(
+            btn_frame,
+            text="Run 2 AI-likely alternatives (A.1, A.2)",
+            variable=self.ai_query_alts_var
+        )
+        self.ai_query_alts_chk.pack(side="left", padx=5)
+
         self.run_btn = ttk.Button(
             btn_frame, text="Run Selected Script", command=self.run_script, state="disabled")
         self.run_btn.pack(side="right", padx=5)
@@ -159,14 +168,21 @@ class SerpLauncherApp:
 
         script_info = self.scripts[selection[0]]
         cmd = [sys.executable, script_info["file"]] + script_info["args"]
+        env = os.environ.copy()
+        env["SERP_ENABLE_AI_QUERY_ALTERNATIVES"] = (
+            "1" if self.ai_query_alts_var.get() else "0"
+        )
 
         self.log(f"> Executing: {' '.join(cmd)}\n")
+        self.log(
+            f"> SERP_ENABLE_AI_QUERY_ALTERNATIVES={env['SERP_ENABLE_AI_QUERY_ALTERNATIVES']}\n"
+        )
         self.run_btn.config(state="disabled")
 
         threading.Thread(target=self.execute_thread,
-                         args=(cmd,), daemon=True).start()
+                         args=(cmd, env), daemon=True).start()
 
-    def execute_thread(self, cmd):
+    def execute_thread(self, cmd, env):
         try:
             # Use Popen to capture output in real-time
             process = subprocess.Popen(
@@ -175,7 +191,8 @@ class SerpLauncherApp:
                 stderr=subprocess.STDOUT,
                 text=True,
                 bufsize=1,
-                cwd=os.getcwd()  # Ensure running in correct directory
+                cwd=os.getcwd(),  # Ensure running in correct directory
+                env=env
             )
 
             for line in process.stdout:

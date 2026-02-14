@@ -167,11 +167,67 @@ class TestSerpAudit(unittest.TestCase):
         # Case 2: Overview from supplemental call
         mock_results_supplemental = {
             'google': {"ai_overview": {}},  # Present but empty
-            'google_ai_overview': {"snippet": "Supplemental AI snippet"}
+            'google_ai_overview': {"ai_overview": {"snippet": "Supplemental AI snippet"}}
         }
         metrics, _, _, _, _, _, _, _, _, _ = serp_audit.parse_data(
             "ai keyword", mock_results_supplemental, mock_metadata)
         self.assertEqual(metrics["AI_Overview"], "Supplemental AI snippet")
+
+    def test_ai_overview_fallback_from_related_questions(self):
+        """If direct AI overview is absent, fallback to related-questions AI text blocks."""
+        mock_metadata = {
+            "run_id": "test_run_123",
+            "created_at": "2024-01-01T12:00:00",
+            "google_url": "N/A",
+            "params_hash": "hash"
+        }
+        mock_results = {
+            'google': {"related_questions": []},
+            'google_related_questions': [
+                {
+                    "related_questions": [
+                        {
+                            "type": "ai_overview",
+                            "question": "What helps couples therapy outcomes?",
+                            "text_blocks": [
+                                {"snippet": "Consistent attendance helps."},
+                                {"type": "list", "list": [{"snippet": "Homework and clear goals matter."}]}
+                            ],
+                            "references": [{"link": "https://example.com/ref"}]
+                        }
+                    ]
+                }
+            ]
+        }
+        metrics, _, paa, _, _, _, _, _, _, _ = serp_audit.parse_data(
+            "ai keyword", mock_results, mock_metadata)
+        self.assertIn("Consistent attendance helps.", metrics["AI_Overview"])
+        self.assertTrue(metrics["Has_PAA_AI_Overview"])
+        self.assertTrue(any(p.get("Is_AI_Generated") for p in paa))
+
+    def test_ai_citations_supports_references_key(self):
+        """AI citations sheet should populate when ai_overview uses `references`."""
+        mock_metadata = {
+            "run_id": "test_run_123",
+            "created_at": "2024-01-01T12:00:00",
+            "google_url": "N/A",
+            "params_hash": "hash"
+        }
+        mock_results = {
+            'google': {"ai_overview": {}},
+            'google_ai_overview': {
+                "ai_overview": {
+                    "snippet": "AI summary",
+                    "references": [
+                        {"title": "Ref A", "link": "https://example.com/a", "source": "Example"}
+                    ]
+                }
+            }
+        }
+        _, _, _, _, _, _, citations, _, _, _ = serp_audit.parse_data(
+            "ai keyword", mock_results, mock_metadata)
+        self.assertEqual(len(citations), 1)
+        self.assertEqual(citations[0]["Title"], "Ref A")
 
     def test_pasf_extraction(self):
         """Test extraction and labeling of People Also Search For."""
@@ -267,11 +323,107 @@ class TestSerpAudit(unittest.TestCase):
 
         # 4. Check aio_log
         self.assertTrue(aio_log["has_ai_overview"])
-        self.assertEqual(aio_log["ai_overview_mode"], "token_followup")
+        self.assertEqual(aio_log["ai_overview_mode"], "token_followup_success")
         self.assertIsNotNone(aio_log["page_token_received_at"])
         self.assertIsNotNone(aio_log["followup_started_at"])
         self.assertIsNotNone(aio_log["followup_latency_ms"])
         self.assertIsNone(aio_log["error"])
+
+    @patch('serp_audit.FORCE_LOCAL_INTENT', False)
+    @patch('serp_audit.save_raw_json')
+    @patch('serp_audit._fetch_serp_api')
+    def test_fetch_serp_data_google_pagination_merge(self, mock_fetch, mock_save):
+        """Test that Google pagination merges organic results across pages."""
+        mock_fetch.side_effect = [
+            {
+                "organic_results": [{"title": "P1", "link": "http://a.com", "position": 1}],
+                "serpapi_pagination": {"next": "https://serpapi.com/search.json?start=10"}
+            },
+            {
+                "organic_results": [{"title": "P2", "link": "http://b.com", "position": 11}],
+                "serpapi_pagination": {}
+            },
+            None  # AI fallback call (no location) for this test
+        ]
+
+        results, aio_log, _ = serp_audit.fetch_serp_data("keyword", "run123")
+
+        self.assertEqual(len(results["google"]["organic_results"]), 2)
+        self.assertEqual(aio_log["google_pages_fetched"], 2)
+
+    @patch('serp_audit.FORCE_LOCAL_INTENT', False)
+    @patch('serp_audit.save_raw_json')
+    @patch('serp_audit._fetch_serp_api')
+    def test_fetch_serp_data_ai_fallback_without_location(self, mock_fetch, mock_save):
+        """Test that AI fallback probe is used when main SERP lacks ai_overview."""
+        mock_fetch.side_effect = [
+            {"organic_results": [], "serpapi_pagination": {}},
+            {"ai_overview": {"snippet": "AI fallback snippet"}}
+        ]
+
+        results, aio_log, _ = serp_audit.fetch_serp_data("keyword", "run123")
+
+        self.assertIn("google_ai_overview_probe", results)
+        self.assertEqual(
+            results["google_ai_overview_probe"]["snippet"], "AI fallback snippet")
+        self.assertEqual(aio_log["ai_overview_mode"], "fallback_without_location")
+
+    @patch('serp_audit.FORCE_LOCAL_INTENT', False)
+    @patch('serp_audit.save_raw_json')
+    @patch('serp_audit._fetch_serp_api')
+    def test_fetch_serp_data_related_questions_ai_followup(self, mock_fetch, mock_save):
+        """Test that related-question tokens trigger google_related_questions follow-up calls."""
+        mock_fetch.side_effect = [
+            {
+                "related_questions": [{"question": "Seed Q", "next_page_token": "tok1"}],
+                "serpapi_pagination": {},
+                "organic_results": []
+            },
+            None,  # AI fallback probe
+            {
+                "related_questions": [
+                    {"type": "ai_overview", "question": "Q1", "text_blocks": [{"text": "A1"}]}
+                ]
+            }
+        ]
+
+        results, aio_log, _ = serp_audit.fetch_serp_data("keyword", "run123")
+
+        self.assertIn("google_related_questions", results)
+        self.assertEqual(aio_log["related_questions_ai_calls"], 1)
+        engines = [call[0][0].get("engine") for call in mock_fetch.call_args_list]
+        self.assertIn("google_related_questions", engines)
+
+    @patch('serp_audit._fetch_serp_api')
+    def test_fetch_autocomplete_uses_fallback_variant(self, mock_fetch):
+        """Autocomplete should try shorter variants when long-tail query returns no suggestions."""
+        mock_fetch.side_effect = [
+            {"suggestions": [], "search_information": {"autocomplete_results_state": "No results."}},
+            {"suggestions": [{"value": "stress help vancouver"}], "search_information": {}}
+        ]
+        result = serp_audit.fetch_autocomplete("help with stress in vancouver")
+        self.assertEqual(len(result["suggestions"]), 1)
+        calls = mock_fetch.call_args_list
+        self.assertEqual(calls[0][0][0]["q"], "help with stress in vancouver")
+        self.assertEqual(calls[1][0][0]["q"], "help with stress")
+
+    def test_ai_query_alternatives_for_local_service(self):
+        """AI-likely alternatives should convert local 'best' query into informational variants."""
+        alternatives = serp_audit._ai_query_alternatives(
+            "Best counselling in north vancouver"
+        )
+        self.assertEqual(len(alternatives), 2)
+        self.assertIn("how to choose the right counselling?", alternatives[0].lower())
+        self.assertIn("how much does counselling cost in vancouver?", alternatives[1].lower())
+
+    def test_expand_keywords_for_ai_includes_labels(self):
+        """Expanded queries should include A, A.1, A.2 labels when enabled."""
+        with patch.object(serp_audit, "AI_QUERY_ALTERNATIVES_ENABLED", True):
+            jobs = serp_audit.expand_keywords_for_ai(["help with stress in vancouver"])
+        labels = [j[2] for j in jobs]
+        self.assertIn("A", labels)
+        self.assertIn("A.1", labels)
+        self.assertIn("A.2", labels)
 
     @patch('builtins.open', new_callable=mock_open)
     @patch('os.makedirs')
