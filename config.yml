@@ -16,10 +16,10 @@ serpapi:
   related_questions_ai_followup: true
   related_questions_ai_max_calls: 5
 files:
-  input_csv: keywords_estrangement.csv
-  output_xlsx: market_analysis_estrangement.xlsx
-  output_json: market_analysis_estrangement.json
-  output_md: market_analysis_estrangement.md
+  input_csv: keywords_Couple_Marriage_RelationshipLocal.csv
+  output_xlsx: market_analysis_couple_marriage_relationshiplocal_20260329_1536.xlsx
+  output_json: market_analysis_couple_marriage_relationshiplocal_20260329_1536.json
+  output_md: market_analysis_couple_marriage_relationshiplocal_20260329_1536.md
   domain_overrides: domain_overrides.yml
 enrichment:
   enabled: true
@@ -35,6 +35,41 @@ app:
   - defend
   - strengthen
   - enter_cautiously
+moz:
+  # Moz Links API v2 caching settings.
+  # Credentials are read from MOZ_ACCESS_ID and MOZ_SECRET_KEY env vars.
+  # DA changes slowly (monthly scale) so a long TTL is appropriate.
+  cache_ttl_days: 30
+
+feasibility:
+  # Domain Authority gap analysis and hyper-local pivot suggestions.
+  # Set enabled: false to skip entirely when no Moz credentials are set.
+  enabled: true
+
+  # Domain Authority of the non-profit client.
+  # Update manually when Moz reports a change — DA moves on a monthly scale.
+  client_da: 35
+
+  # Broad location label used in pivot strategy explanation text.
+  non_profit_location: North Vancouver
+
+  # When true, a secondary SERP + Maps fetch is triggered for the top
+  # neighbourhood pivot variant of every Low Feasibility keyword.
+  # Maps is always included (force_local_intent: true) so the local 3-pack
+  # is checked for client domain presence — the geographic relevance signal.
+  # Each Low Feasibility keyword costs one additional SerpAPI credit.
+  pivot_serp_fetch: true
+
+  # Ordered neighbourhood list for pivot variant generation.
+  # The first entry is the default "suggested" pivot (deterministic).
+  # All entries appear in the all_variants list in reports.
+  neighborhoods:
+  - Lonsdale
+  - Edgemont Village
+  - Lynn Valley
+  - Deep Cove
+  - Canyon Heights
+
 analysis_report:
   client_name: Living Systems Counselling
   client_domain: livingsystems.ca
