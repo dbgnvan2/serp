@@ -6,6 +6,57 @@ import os
 from classifiers import EntityClassifier
 
 
+class TestOutputSlugDerivation(unittest.TestCase):
+    """Tests for _derive_output_slug and _resolve_output_names."""
+
+    def test_keywords_prefix_stripped(self):
+        self.assertEqual(serp_audit._derive_output_slug("keywords_estrangement.csv"), "estrangement")
+
+    def test_default_keywords_file(self):
+        self.assertEqual(serp_audit._derive_output_slug("keywords.csv"), "keywords")
+
+    def test_mixed_case_standalone_file(self):
+        self.assertEqual(serp_audit._derive_output_slug("Substance_Use.csv"), "substance_use")
+
+    def test_mixed_case_with_keywords_prefix(self):
+        self.assertEqual(serp_audit._derive_output_slug("keywords_Substance_Use.csv"), "substance_use")
+
+    def test_spaces_replaced_with_underscores(self):
+        self.assertEqual(serp_audit._derive_output_slug("Basic Series Tape 7.csv"), "basic_series_tape_7")
+
+    def test_keywords_prefix_with_spaces(self):
+        self.assertEqual(serp_audit._derive_output_slug("keywords_mental health.csv"), "mental_health")
+
+    def test_resolve_uses_config_when_slug_matches(self):
+        config = {"files": {
+            "output_json": "market_analysis_estrangement_20260327_1430.json",
+            "output_xlsx": "market_analysis_estrangement_20260327_1430.xlsx",
+            "output_md":   "market_analysis_estrangement_20260327_1430.md",
+        }}
+        xlsx, json_path, md = serp_audit._resolve_output_names("keywords_estrangement.csv", config)
+        self.assertEqual(json_path, "market_analysis_estrangement_20260327_1430.json")
+        self.assertEqual(xlsx,      "market_analysis_estrangement_20260327_1430.xlsx")
+        self.assertEqual(md,        "market_analysis_estrangement_20260327_1430.md")
+
+    def test_resolve_generates_fresh_names_when_slug_differs(self):
+        # Config has estrangement paths but keyword file is substance_use
+        config = {"files": {
+            "output_json": "market_analysis_estrangement_20260327_1430.json",
+            "output_xlsx": "market_analysis_estrangement_20260327_1430.xlsx",
+            "output_md":   "market_analysis_estrangement_20260327_1430.md",
+        }}
+        xlsx, json_path, md = serp_audit._resolve_output_names("Substance_Use.csv", config)
+        self.assertIn("substance_use", json_path)
+        self.assertIn("substance_use", xlsx)
+        self.assertIn("substance_use", md)
+        self.assertNotIn("estrangement", json_path)
+
+    def test_resolve_generates_fresh_names_when_no_config(self):
+        xlsx, json_path, md = serp_audit._resolve_output_names("Substance_Use.csv", {})
+        self.assertTrue(json_path.startswith("market_analysis_substance_use_"))
+        self.assertTrue(json_path.endswith(".json"))
+
+
 class TestSerpAudit(unittest.TestCase):
 
     def test_get_ngrams_logic(self):

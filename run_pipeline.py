@@ -35,6 +35,12 @@ def main():
     run_command([sys.executable, "serp_audit.py"],
                 "Step 1: SERP Audit & Enrichment")
 
+    # Re-read config: serp_audit.py writes the actual output paths on completion.
+    if os.path.exists("config.yml"):
+        with open("config.yml", "r") as f:
+            config = yaml.safe_load(f) or {}
+    files_cfg = config.get("files", {})
+
     # 2. Validate Data Consistency
     xlsx_file = files_cfg.get("output_xlsx", "market_analysis_v2.xlsx")
     json_file = files_cfg.get("output_json", "market_analysis_v2.json")

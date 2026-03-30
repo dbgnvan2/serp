@@ -4,8 +4,13 @@ import tempfile
 import unittest
 from pathlib import Path
 
+try:
+    import tkinter  # noqa: F401
+    TKINTER_AVAILABLE = True
+except ModuleNotFoundError:
+    TKINTER_AVAILABLE = False
 
-MODULE_PATH = "/Users/davemini2/ProjectsLocal/serp/serp-me.py"
+MODULE_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "serp-me.py")
 
 
 def load_serp_me():
@@ -15,6 +20,7 @@ def load_serp_me():
     return module
 
 
+@unittest.skipUnless(TKINTER_AVAILABLE, "tkinter not available in this environment")
 class TestSerpLauncherResolution(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -35,6 +41,28 @@ class TestSerpLauncherResolution(unittest.TestCase):
         self.assertEqual(
             self.mod.derive_topic_slug_from_keyword_file("keywords_estrangement.csv"),
             "estrangement",
+        )
+
+    def test_derive_topic_slug_normalizes_to_lowercase(self):
+        # Mixed-case standalone file
+        self.assertEqual(
+            self.mod.derive_topic_slug_from_keyword_file("Substance_Use.csv"),
+            "substance_use",
+        )
+        # Mixed-case keywords_ prefixed file
+        self.assertEqual(
+            self.mod.derive_topic_slug_from_keyword_file("keywords_Substance_Use.csv"),
+            "substance_use",
+        )
+
+    def test_derive_topic_slug_replaces_spaces_with_underscores(self):
+        self.assertEqual(
+            self.mod.derive_topic_slug_from_keyword_file("Basic Series Tape 7.csv"),
+            "basic_series_tape_7",
+        )
+        self.assertEqual(
+            self.mod.derive_topic_slug_from_keyword_file("keywords_mental health.csv"),
+            "mental_health",
         )
 
     def test_resolve_existing_analysis_outputs_uses_matching_keyword_file_slug(self):

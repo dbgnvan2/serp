@@ -8,3 +8,5 @@ wordcloud
 matplotlib
 google-search-results
 python-dotenv
+anthropic
+pytest
