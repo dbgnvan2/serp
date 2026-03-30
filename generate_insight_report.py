@@ -1,9 +1,24 @@
 #!/usr/bin/env python3
 """
 generate_insight_report.py
-
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 Generates a Markdown summary report from the SERP analysis JSON.
-Usage: python generate_insight_report.py --json market_analysis_v2.json --out report.md
+
+Sections
+--------
+1. Market Overview
+2. The 'Anxiety Loop' (PAA Analysis)
+3. The 'Status Quo' (Competitor Language)
+4. Strategic Recommendations (The Bridge)
+5. SERP Composition (Entity + Content Dominance)
+5b. Keyword Feasibility & Pivot Recommendations  ← NEW
+6. Market Volatility
+
+Usage
+-----
+::
+
+    python generate_insight_report.py --json market_analysis_v2.json --out report.md
 """
 import argparse
 import json
@@ -142,15 +157,14 @@ def generate_report(data):
     else:
         report.append("_No strategic recommendations generated._")
 
-    # 5. Advanced Metrics (Volatility & Dominance)
+    # 5. Advanced Metrics (Dominance) + 6. Volatility
     if METRICS_AVAILABLE:
-        # Extract Run ID
-        overview = data.get("overview", [])
-        run_id = overview[0].get("Run_ID") if overview else None
+        _overview = data.get("overview", [])
+        _run_id = _overview[0].get("Run_ID") if _overview else None
 
-        if run_id:
-            # Dominance
-            dominance = metrics.get_entity_dominance(run_id)
+        if _run_id:
+            # Section 5 — SERP Composition
+            dominance = metrics.get_entity_dominance(_run_id)
             if dominance:
                 report.append("\n## 5. SERP Composition (Enriched Data)")
 
@@ -167,8 +181,81 @@ def generate_report(data):
                         report.append(f"- **{k}:** {v}%")
                 report.append("\n")
 
-            # Volatility
-            vol = metrics.get_volatility_metrics(run_id)
+    # 5b. Keyword Feasibility & Pivot Recommendations
+    feasibility_rows = data.get("keyword_feasibility", [])
+    if feasibility_rows:
+        report.append("## 5b. Keyword Feasibility & Pivot Recommendations")
+        report.append(
+            "Domain Authority gap analysis for each keyword. "
+            "Low Feasibility keywords include a hyper-local pivot suggestion "
+            "where geographic relevance can substitute for domain strength.\n"
+        )
+
+        # Split primary and pivot rows
+        primary_rows = [r for r in feasibility_rows if r.get("Query_Label") != "P"]
+        pivot_rows   = {r.get("Source_Keyword", r.get("Keyword")): r
+                        for r in feasibility_rows if r.get("Query_Label") == "P"}
+
+        # Table header
+        report.append("| Keyword | Client DA | Avg Comp DA | Gap | Status | Recommended Pivot |")
+        report.append("|---------|-----------|-------------|-----|--------|-------------------|")
+
+        STATUS_ICONS = {
+            "High Feasibility":     "✅ High",
+            "Moderate Feasibility": "⚠️ Moderate",
+            "Low Feasibility":      "🔴 Low",
+        }
+
+        for row in primary_rows:
+            kw       = row.get("Keyword") or row.get("original_keyword", "—")
+            client_da = row.get("client_da", "—")
+            avg_da   = row.get("avg_serp_da")
+            gap      = row.get("gap")
+            status   = STATUS_ICONS.get(row.get("feasibility_status", ""), row.get("feasibility_status", "—"))
+            avg_da_str = f"{avg_da:.0f}" if avg_da is not None else "—"
+            gap_str    = f"{gap:+.0f}" if gap is not None else "—"
+
+            pivot_cell = "*(stay the course)*"
+            if row.get("pivot_status") == "Pivoting to Hyper-Local":
+                suggested = row.get("suggested_keyword", "")
+                # Check if we have a pivot result with local pack data
+                pivot_result = pivot_rows.get(kw)
+                if pivot_result:
+                    pack = pivot_result.get("Client_In_Local_Pack")
+                    pack_str = " ✓ in local pack" if pack else " ✗ not in local pack"
+                    pivot_feas = pivot_result.get("feasibility_status", "")
+                    p_icon = STATUS_ICONS.get(pivot_feas, pivot_feas)
+                    pivot_cell = f"**{suggested}** — {p_icon}{pack_str}"
+                else:
+                    pivot_cell = f"**{suggested}**"
+
+            report.append(f"| {kw} | {client_da} | {avg_da_str} | {gap_str} | {status} | {pivot_cell} |")
+
+        report.append("")
+
+        # Pivot strategy explanations for Low Feasibility keywords
+        low_feas = [r for r in primary_rows if r.get("feasibility_status") == "Low Feasibility"]
+        if low_feas:
+            report.append("### Pivot Strategy\n")
+            report.append(
+                "> **Why this works:** Geographic relevance is the equalizer for non-profits. "
+                "A practitioner physically located in a neighbourhood can outrank a national "
+                "directory for a user searching in that specific area, regardless of domain authority.\n"
+            )
+            for row in low_feas:
+                strategy = row.get("strategy", "")
+                if strategy and strategy != "Current keyword is feasible. No pivot required.":
+                    kw = row.get("Keyword") or row.get("original_keyword", "")
+                    report.append(f"**{kw}:** {strategy}\n")
+
+        report.append("\n")
+
+    # Section 6 — Market Volatility
+    if METRICS_AVAILABLE:
+        _overview = data.get("overview", [])
+        _run_id = _overview[0].get("Run_ID") if _overview else None
+        if _run_id:
+            vol = metrics.get_volatility_metrics(_run_id)
             if vol and vol.get("status") == "success":
                 report.append("## 6. Market Volatility")
                 report.append(
