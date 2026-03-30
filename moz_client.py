@@ -188,7 +188,7 @@ class MozClient:
         results: dict[str, dict] = {}
         fetched_at = datetime.now(_UTC).isoformat()
         for item in data.get("results", []):
-            url = item.get("url") or item.get("page_url")
+            url = item.get("url") or item.get("page_url") or item.get("page")
             if not url:
                 continue
             results[url] = {
