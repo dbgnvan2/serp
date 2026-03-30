@@ -432,6 +432,74 @@ def _compute_strategic_flags(root_keywords, keyword_profiles, client_position, t
     return flags
 
 
+def _classify_paa_intent(paa_rows):
+    """Group PAA questions by Intent_Tag written by serp_audit.py.
+
+    Returns a dict with keys ``"External Locus"``, ``"Systemic"``, and
+    ``"General"``, each containing a list of question strings.  Questions
+    without an ``Intent_Tag`` fall into ``"General"``.
+    """
+    buckets = {"External Locus": [], "Systemic": [], "General": []}
+    seen = set()
+    for row in paa_rows:
+        question = str(row.get("Question") or "").strip()
+        if not question or question in seen:
+            continue
+        seen.add(question)
+        tag = str(row.get("Intent_Tag") or "").strip()
+        if tag in buckets:
+            buckets[tag].append(question)
+        else:
+            buckets["General"].append(question)
+    return buckets
+
+
+def _build_feasibility_summary(feasibility_rows):
+    """Compact summary of keyword feasibility data for the LLM payload.
+
+    Returns a dict with:
+    - ``low_feasibility``: list of {keyword, gap, suggested_pivot} for
+      Low Feasibility primary keywords (query_label != "P").
+    - ``moderate_feasibility``: list of keyword strings.
+    - ``high_feasibility``: list of keyword strings.
+    - ``pivot_serp_results``: list of {keyword, suggested_pivot, client_in_local_pack}
+      for pivot keywords (query_label == "P") where pivot data was fetched.
+    """
+    primary = [r for r in feasibility_rows if r.get("Query_Label") != "P" and r.get("query_label") != "P"]
+    pivots  = [r for r in feasibility_rows if r.get("Query_Label") == "P" or r.get("query_label") == "P"]
+
+    low, moderate, high = [], [], []
+    for row in primary:
+        status = row.get("feasibility_status", "")
+        kw = row.get("Keyword") or row.get("keyword_text") or ""
+        gap = row.get("gap")
+        suggested = row.get("suggested_keyword", "")
+        if status == "Low Feasibility":
+            low.append({"keyword": kw, "gap": gap, "suggested_pivot": suggested})
+        elif status == "Moderate Feasibility":
+            moderate.append(kw)
+        elif status == "High Feasibility":
+            high.append(kw)
+
+    pivot_results = []
+    for row in pivots:
+        source = row.get("Source_Keyword") or row.get("source_keyword") or ""
+        kw = row.get("Keyword") or row.get("keyword_text") or ""
+        in_pack = row.get("Client_In_Local_Pack") if row.get("Client_In_Local_Pack") is not None else row.get("client_in_local_pack")
+        pivot_results.append({
+            "source_keyword": source,
+            "pivot_keyword": kw,
+            "client_in_local_pack": bool(in_pack) if in_pack is not None else None,
+        })
+
+    return {
+        "low_feasibility": low,
+        "moderate_feasibility": moderate,
+        "high_feasibility": high,
+        "pivot_serp_results": pivot_results,
+    }
+
+
 def extract_analysis_data_from_json(data, client_domain, client_name_patterns=None, framework_terms=None):
     """Build a compact, pre-verified analysis object from market_analysis_v2.json."""
     client_domain_lower = (client_domain or "").lower()
@@ -639,6 +707,11 @@ def extract_analysis_data_from_json(data, client_domain, client_name_patterns=No
             "single_cluster_count": len(paa_single_cluster),
         },
     }
+
+    paa_by_intent = _classify_paa_intent(paa_rows)
+
+    feasibility_rows = data.get("keyword_feasibility", [])
+    feasibility_summary = _build_feasibility_summary(feasibility_rows) if feasibility_rows else None
 
     autocomplete_by_kw = defaultdict(list)
     autocomplete_texts = []
@@ -968,6 +1041,8 @@ def extract_analysis_data_from_json(data, client_domain, client_name_patterns=No
         "content_type_distribution": content_counter.most_common(10),
         "rank_deltas_top20": sorted(rank_deltas, key=lambda x: -abs(x["delta"]))[:20],
         "paa_analysis": paa_analysis,
+        "paa_by_intent": paa_by_intent,
+        "feasibility_summary": feasibility_summary,
         "tool_recommendations_verified": tool_recommendations_verified,
         "client_position": client_position,
         "keyword_profiles": keyword_profiles,
@@ -1156,6 +1231,8 @@ def build_main_report_payload(extracted_data):
         "aio_total_citations": extracted_data.get("aio_total_citations"),
         "aio_unique_sources": extracted_data.get("aio_unique_sources"),
         "paa_analysis": extracted_data.get("paa_analysis", {}),
+        "bowen_reframe_faqs": (extracted_data.get("paa_by_intent") or {}).get("Systemic", [])[:10],
+        "feasibility_summary": extracted_data.get("feasibility_summary"),
         "tool_recommendations_verified": extracted_data.get("tool_recommendations_verified", []),
         "autocomplete_by_keyword": {
             keyword: rows[:10]
